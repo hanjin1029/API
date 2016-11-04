@@ -2,11 +2,13 @@
 #include "CollisionMgr.h"
 #include "Player.h"
 #include "Monster.h"
+#include "DamageSkin.h"
 #include "MyEdit.h"
 #include "ObjFactory.h"
 #include "MySkill.h"
 
 DWORD	CCollisionMgr::m_dwTime(GetTickCount());
+
 CCollisionMgr::CCollisionMgr(void)
 {
 }
@@ -87,10 +89,10 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							{
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();
-							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter)->GetInfo().fX,(*iter)->GetInfo().fY,301.f,201.f,0,"Bolt_Hit"));
+							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,303.f,201.f,0,"Bolt_Hit"));
 							(*iter)->Sethit(true);
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
-							
+					
 							}
 
 							
@@ -157,8 +159,8 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							{
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();						
-							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,301.f,201.f,0,"Bolt_Hit"));
-					
+							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,303.f,201.f,0,"Bolt_Hit"));
+						
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
 							}

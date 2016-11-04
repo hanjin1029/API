@@ -36,15 +36,13 @@ int CMySkill::Progress(void)
 		m_tFrame.dwTime = 60;
 	}
 	
-	if (m_strKey == "Bolt_Hit" )
-	{
-		m_tFrame.dwTime = 150;
-	}
+
 
 	if(m_strKey == "Skill1Effect_RIGHT" || m_strKey == "Skill1Effect_LEFT")
 	{
 		m_tFrame.dwTime = 20;
 	}
+	
 	
 
 	if(m_strKey == "Skill1Ball_LEFT")

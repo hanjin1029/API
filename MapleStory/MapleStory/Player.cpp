@@ -3,7 +3,7 @@
 #include "KeyMgr.h"
 #include "MySkill.h"
 #include "ObjFactory.h"
-
+#include "DamageSkin.h"
 
 
 CPlayer::CPlayer(void)
@@ -139,6 +139,7 @@ void CPlayer::KeyCheck(void)
 			m_strSkill = "Bolt_LEFT";
 			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 730.f, 427.f, 20, m_strSkill));
 			
+			
 		}
 		else
 		{	
@@ -148,11 +149,7 @@ void CPlayer::KeyCheck(void)
 			
 		}
 	
-	/*	if(m_strSkill == "Bolt_RIGHT" || m_strSkill == "Bolt_LEFT")
-		{
-			m_strSkill = "Bolt_Hit";
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 303.f, 201.f,0,m_strSkill));
-		}*/
+
 	
 	}
 
@@ -242,7 +239,7 @@ void CPlayer::KeyCheck(void)
 				m_strSkill = "Skill1Ball_RIGHT";
 			
 				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 100.f, m_tInfo.fY,303.f, 57.f, 15 , m_strSkill));
-			
+				
 			}
 			
 		
@@ -263,7 +260,7 @@ void CPlayer::KeyCheck(void)
 	
 	}
 
-	}
+}
 
 void CPlayer::Direction(void)
 {
@@ -443,6 +440,8 @@ void CPlayer::SetSkill(list<CObj*>* _pSkill)
 {
 	m_pSkill = _pSkill;
 }
+
+
 
 CObj* CPlayer::CreateSkill(float _fX, float _fY, float _fCX, float _fCY, int _iAttack, string _strSkillName)
 {

@@ -3,6 +3,7 @@
 #include "MyButton.h"
 #include "ObjFactory.h"
 #include "SceneMgr.h"
+#include "Device.h"
 
 
 
@@ -28,13 +29,14 @@ void CLogin::Initialize(void)
 	m_BitMap["Edit"] = (new CBitBmp)->LoadBmp(L"../Texture/Button/Edit2.bmp");
 	m_BitMap["Exit"] = (new CBitBmp)->LoadBmp(L"../Texture/Button/Exit2.bmp");
 	
-
-
 	m_ButtonList.push_back(CreateButton(200.f, 400.f, "Start"));
 	m_ButtonList.push_back(CreateButton(400.f, 400.f, "Edit"));
 	m_ButtonList.push_back(CreateButton(600.f, 400.f, "Exit"));
 
+	CDevice::GetInstance()->LoadWave(L"../Sound/Login.wav");
+
 	CObj::SetBitMap(&m_BitMap);
+	CDevice::GetInstance()->SoundPlay(0, 0);
 
 }
 CObj* CLogin::CreateButton(float _fX, float _fY, string _strKey)
@@ -48,6 +50,9 @@ CObj* CLogin::CreateButton(float _fX, float _fY, string _strKey)
 }
 int CLogin::Progress(void)
 {
+	
+		
+
 	int iSelect = 0;
 
 	for(list<CObj*>::iterator	iter = m_ButtonList.begin();
@@ -59,6 +64,7 @@ int CLogin::Progress(void)
 		{
 		case 1:
 			CSceneMgr::GetInst()->SetScene(SC_TOWN);
+			CDevice::GetInstance()->SoundStop(0);
 			return 0;
 
 		case 2:

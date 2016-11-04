@@ -348,6 +348,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="07. DamageSkin"
+				>
+				<File
+					RelativePath=".\DamageSkin.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\DamageSkin.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="03. Mgr"
@@ -421,6 +433,18 @@
 				</File>
 				<File
 					RelativePath=".\RenderMgr.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="06. Device"
+				>
+				<File
+					RelativePath=".\Device.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Device.h"
 					>
 				</File>
 			</Filter>

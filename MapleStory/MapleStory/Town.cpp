@@ -10,6 +10,7 @@
 #include "PlayerUI.h"
 #include "CollisionMgr.h"
 #include "Portal.h"
+#include "Device.h"
 
 CTown::CTown(void)
 
@@ -28,7 +29,12 @@ void	CTown::Initialize(void)
 	
 	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Info_0.bmp");
 	m_BitMap["Portal"] = (new CBitBmp)->LoadBmp(L"../Texture/Portal.bmp");
+	m_BitMap["DamageSkin1"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageNum.bmp");
+	m_BitMap["DamageSkin2"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageNum2.bmp");
+
 	m_BitMap["back"] = (new CBitBmp)->LoadBmp(L"../Texture/BackBuffer.bmp");
+
+
 	m_BitMap["Player_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerRR.bmp");
 	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerL.bmp");
 	m_BitMap["Bolt_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill2BoltR.bmp");
@@ -46,18 +52,32 @@ void	CTown::Initialize(void)
 	m_BitMap["Skill3Effect_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill3EffectL.bmp");
 	m_BitMap["Skill3Ball_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/SKill2/Skill3BallL.bmp");
 	m_BitMap["Skill3Ball_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/SKill2/Skill3BallR.bmp");
+	
 	m_BitMap["town"] = (new CBitBmp)->LoadBmp(L"../Texture/town.bmp");
+	m_BitMap["Filed1"] = (new CBitBmp)->LoadBmp(L"../Texture/04.Map/Field1.bmp");
+
 	m_BitMap["SlimeL"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/SlimL.bmp");
 	m_BitMap["SlimeR"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/SlimR.bmp");
 	m_BitMap["BlueL"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/BlueL.bmp");
 	m_BitMap["BlueR"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/BlueR.bmp");
+
+	
+	//사운드 파일 추가
+	
+	CDevice::GetInstance()->LoadWave(L"../Sound/Town.wav");
+
+	
+	//사운드 재생
+	CDevice::GetInstance()->SoundPlay(1, 1);
+
 
 	m_pBack = CObjFactory<CBack>::CreateObj();
 	
 	m_ObjList[OBJ_PLAYER].push_back(CObjFactory<CPlayer>::CreateObj());
 
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
-	
+
+
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(30.f,WINCY-160));
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(3000.f,WINCY-160));
 	
@@ -79,6 +99,7 @@ void	CTown::Initialize(void)
 	
 	}
 	((CPlayer*)m_ObjList[OBJ_PLAYER].back())->SetSkill(&m_ObjList[OBJ_SKILL]);
+
 	
 	CObjMgr::GetInst()->SetObjList(m_ObjList);
 	CObj::SetBitMap(&m_BitMap);
@@ -89,7 +110,8 @@ int CTown::Progress(void)
 	m_pBack->Progress();
 	
 	
-	
+	if(GetAsyncKeyState(VK_RETURN))
+		CDevice::GetInstance()->SoundStop(0);
 
 	for(size_t i = 0; i < OBJ_END; ++i)
 	{
@@ -110,6 +132,8 @@ int CTown::Progress(void)
 	
 
 	CCollisionMgr::SkillCollision(&m_ObjList[OBJ_SKILL], &m_ObjList[OBJ_MONSTER]);
+	
+	
 
 	//CCollisionMgr::MonsterCollision(&m_ObjList[OBJ_PLAYER], &m_ObjList[OBJ_MONSTER]);
 

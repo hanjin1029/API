@@ -6,6 +6,7 @@
 #include "RenderMgr.h"
 #include "MyEdit.h"
 #include "PlayerUI.h"
+#include "Device.h"
 
 
 CMainGame::CMainGame(void)
@@ -23,7 +24,7 @@ void CMainGame::Initialize(void)
 {
 	m_hdc = GetDC(g_hWnd);
 	
-
+	CDevice::GetInstance()->Init();
 
 	m_pSceneMgr->SetScene(SC_LOGO);
 
@@ -57,5 +58,6 @@ void CMainGame::Release(void)
 	CRenderMgr::GetInst()->DestroyInst();
 
 	
+	CDevice::GetInstance()->DestroyInst();
 	ReleaseDC(g_hWnd, m_hdc);
 }

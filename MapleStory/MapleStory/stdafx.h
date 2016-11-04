@@ -29,8 +29,17 @@
 #include <ctime>
 
 
+// 사운드
+#include <MMSystem.h>
+#include <dsound.h>
+#pragma comment (lib, "winmm.lib")
+#pragma comment (lib, "dsound.lib")
 
 
+
+
+
+//이미지
 #include "BitBmp.h"
 #pragma comment(lib, "msimg32.lib")
 
