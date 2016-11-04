@@ -1,0 +1,19 @@
+<i>
+  <i image="stand_0.png" delay="180" x="-99" y="-71"/>
+  <i image="stand_1.png" delay="180" x="-99" y="-71"/>
+  <i image="stand_2.png" delay="180" x="-99" y="-71"/>
+  <i image="stand_3.png" delay="180" x="-99" y="-71"/>
+  <i image="stand_4.png" delay="180" x="-99" y="-71"/>
+  <i image="skill1_0.png" delay="180" x="-99" y="-71"/>
+  <i image="skill1_1.png" delay="180" x="-99" y="-71"/>
+  <i image="skill1_2.png" delay="180" x="-99" y="-71"/>
+  <i image="skill1_3.png" delay="180" x="-99" y="-71"/>
+  <i image="skill1_4.png" delay="180" x="-99" y="-71"/>
+  <i image="hit1_0.png" delay="150" x="-95" y="-71"/>
+  <i image="die1_0.png" delay="180" x="-62" y="-68"/>
+  <i image="die1_1.png" delay="180" x="-62" y="-68"/>
+  <i image="die1_2.png" delay="180" x="-62" y="-68"/>
+  <i image="die1_3.png" delay="180" x="-62" y="-68"/>
+  <i image="die1_4.png" delay="180" x="-62" y="-68"/>
+  <i image="die1_5.png" delay="180" x="-62" y="-68"/>
+</i>

@@ -1,0 +1,23 @@
+#pragma once
+
+enum OBJID
+{
+	OBJ_PLAYER,
+	OBJ_SKILL,
+	OBJ_MONSTER,
+	OBJ_UI,
+	OBJ_PORTAL,
+	OBJ_END
+};
+
+enum SCENEID
+{
+	SC_LOGO,
+	SC_LOGIN,
+	SC_EDIT,
+	SC_TOWN,
+	SC_FIELD1,
+	SC_FIELD2,
+	SC_BOSSFIELD,
+	SC_END
+};
