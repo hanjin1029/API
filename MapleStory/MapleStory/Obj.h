@@ -45,6 +45,7 @@ public:
 	void		SetDamage(int iAttack);
 	void		SetHP(float fHP);
 	void		SetMP(float fMP);
+	void		SetSpeed(float fSpeed);
 
 public:
 	virtual void Initialize(void)	PURE;

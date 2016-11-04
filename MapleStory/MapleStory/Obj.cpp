@@ -111,6 +111,7 @@ void CObj::SetDamage(int iAttack)
 		
 		++m_tFrame.iStart;
 	}
+
 }
 
 void CObj::SetAttack(int iAttack)
@@ -126,4 +127,9 @@ bool CObj::GetHit(void)
 void CObj::Sethit(bool  bHit)
 {
 	m_bHit = bHit;
+}
+
+void CObj::SetSpeed(float fSpeed)
+{
+	m_fSpeed = fSpeed;
 }

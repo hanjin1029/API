@@ -11,14 +11,17 @@ private:
 	DWORD	m_dwTime2;
 	DWORD	m_dwTime3;
 
+	
+
 	string	m_strName;
 	list<CObj*>*		m_pMonster;
 
 
 public:
-	void	MonsterMove(void);
+	void	MonsterMove();
 	CObj* CreateMonster(float _fX, float _fY, float _fCX, float _fCY, string _strMonster);
 	void	MonsterHit(void);
+	void	SetState(DWORD	ST);
 
 
 public:

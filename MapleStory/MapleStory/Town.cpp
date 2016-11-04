@@ -69,7 +69,7 @@ void	CTown::Initialize(void)
 
 	for(int i=0; i<3; ++i)
 	{
-		m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*20, WINCY-300, 70.f, 70.f, 120.f, "BlueL"));
+		m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*400, WINCY-300, 70.f, 70.f, 120.f, "BlueL"));
 	
 	}
 

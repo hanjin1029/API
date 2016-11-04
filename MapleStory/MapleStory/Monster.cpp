@@ -7,6 +7,7 @@ CMonster::CMonster(void)
 : m_dwTime(GetTickCount())
 , m_dwTime2(GetTickCount())
 , m_dwTime3(GetTickCount())
+
 {
 }
 
@@ -21,8 +22,6 @@ void CMonster::Initialize(void)
 	m_strName = "SlimeL";
 	
 	m_fSpeed = 5.f;
-
-
 }
 
 
@@ -30,24 +29,28 @@ void CMonster::Initialize(void)
 int CMonster::Progress(void)
 {
 
+	if (m_dwState != ST_DAMAGE)
+	{
+		MonsterMove();
+	}
+
 	if(m_dwTime + m_tFrame.dwTime < GetTickCount())
-	{
-		m_dwTime = GetTickCount();
+		{
+			m_dwTime = GetTickCount();
 
-		++m_tFrame.iStart;
-	}
+			++m_tFrame.iStart;
+		}
+
+		
+		if(m_tFrame.iStart >= m_tFrame.iLast)
+		{
+			if(m_dwState != 1 && m_dwState != 1 )
+				m_dwState = ST_STAND;
+
+			m_tFrame.iStart = 0;
+		}
 
 	
-	if(m_tFrame.iStart >= m_tFrame.iLast)
-	{
-		if(m_dwState != 1 && m_dwState != 1 )
-			m_dwState = 3;
-
-		m_tFrame.iStart = 0;
-	}
-	
-	
-	MonsterMove();
 	
 
 	return 0;
@@ -71,7 +74,7 @@ void CMonster::Release(void)
 	
 }
 
-void CMonster::MonsterMove(void)
+void CMonster::MonsterMove()
 {
 	
 	m_tInfo.fX -= m_fSpeed;
@@ -110,39 +113,46 @@ void CMonster::MonsterMove(void)
 
 void CMonster::MonsterHit(void)
 {
-
-	
 		if(m_strKey == "SlimeL")
 		{
-			m_tFrame = FRAME(0,1,1,80);
-		
-					
-			return;
+			m_tFrame = FRAME(0,1,1,1000);
+			m_dwState = ST_DAMAGE;
+	
+			return ;
 		}
 		else if(m_strKey == "SlimeR")
 		{
 			
-			m_tFrame = FRAME(0,1,1,80);
-			
+			m_tFrame = FRAME(0,1,1,1000);
+			m_dwState = ST_DAMAGE;
+	
 			return;
 		}
 
 		if(m_strKey == "BlueL")
 		{
-			;
-			m_tFrame = FRAME(0,1,1,80);
 			
+			m_tFrame = FRAME(0,1,1,1000);
+			m_dwState = ST_DAMAGE;
+		
 			return;
 		}
 		else if(m_strKey == "BlueR")
 		{
-			m_tFrame = FRAME(0,1,1,80);
+			m_tFrame = FRAME(0,1,1,1000);
+			m_dwState = ST_DAMAGE;
 		
 			return;
 
 		}
 		
-	
 		
 	
+	
 }
+
+void CMonster::SetState(DWORD	ST)
+{
+	m_dwState = ST;
+}
+
