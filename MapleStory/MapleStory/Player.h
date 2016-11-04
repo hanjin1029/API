@@ -39,7 +39,6 @@ public:
 	CObj*	CreateSkill(float _fX, float _fY, float _fCX, float _fCY, int _iAttack , string _strSkillName);
 	string	GetSkillDir(void);
 	
-	
 public:
 	CPlayer(void);
 	~CPlayer(void);

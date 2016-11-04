@@ -13,7 +13,7 @@ private:
 	list<CObj*>		m_pMonster;
 	string			m_strMonsterName;
 
-
+	list<CObj*>		m_pDamage;
 
 
 

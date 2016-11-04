@@ -78,6 +78,10 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 				
 					int iHeight = rcCol.bottom  - rcCol.top ;
 					int iWidth = rcCol.right  - rcCol.left ; 
+
+					int iHundred = (*iter)->GetInfo().iAttack / 100;
+					int	iTen =((*iter)->GetInfo().iAttack - (iHundred * 100) )/ 10;
+					int iOne = (*iter)->GetInfo().iAttack - ((iHundred*100) + (iTen*10));
 					
 				
 					if(iWidth > iHeight) // 상하충돌
@@ -89,7 +93,17 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							{
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();
-							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,303.f,201.f,0,"Bolt_Hit"));
+							
+							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,303.f,201.f,(*iter)->GetInfo().iAttack,"Bolt_Hit"));
+								if(pSkill->back()->GetstrKey() == "Bolt_Hit")
+								{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+
+								
+								}
+							
 							(*iter)->Sethit(true);
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 					
@@ -100,16 +114,44 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							{
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();						
-						//	pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,301.f,201.f,0,"Bolt_Hit"));
+							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,239.f,278.f,0,"Skill2_Hit"));
+								if(pSkill->back()->GetstrKey() == "Skill2_Hit")
+								{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
 
+								}
 							(*iter)->Sethit(true);
 							}
 
-							if((*iter)->GetstrKey() == "Skill3Ball_LEFT" ||  (*iter)->GetstrKey() =="Skill3Ball_RIGHT")						
+							if((*iter)->GetstrKey() == "Skill3Ball_LEFT" )						
 							{
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();						
-							//pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,301.f,201.f,0,"Bolt_Hit"));
+							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,212.f,205.f,0,"Skill3Hit_LEFT"));
+								if(pSkill->back()->GetstrKey() == "Skill3Hit_LEFT")
+								{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+
+								}
+							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
+							(*iter)->Sethit(true);
+							}
+
+							else if((*iter)->GetstrKey() == "Skill3Ball_RIGHT" )						
+							{
+							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
+							((CMonster*)(*iter2))->MonsterHit();						
+							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,212.f,205.f,0,"Skill3Hit_RIGHT"));
+								if(pSkill->back()->GetstrKey() == "Skill3Hit_RIGHT")
+								{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+								}
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
 							}
@@ -119,6 +161,13 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();						
 							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,373.f,224.f,0,"Skill1HitR"));
+								if(pSkill->back()->GetstrKey() == "Skill1HitR")
+								{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+
+								}
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
 							}
@@ -128,6 +177,13 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();						
 							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,373.f,224.f,0,"Skill1HitL"));
+								if(pSkill->back()->GetstrKey() == "Skill1HitL")
+								{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+
+								}
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
 							}
@@ -159,8 +215,13 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							{
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();						
-							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,303.f,201.f,0,"Bolt_Hit"));
-						
+							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,303.f,201.f,20,"Bolt_Hit"));
+								if(pSkill->back()->GetstrKey() == "Bolt_Hit")
+								{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+								}
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
 							}
@@ -169,16 +230,46 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							{
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();						
-							//pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,301.f,201.f,0,"Bolt_Hit"));
+							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,239.f,278.f,0,"Skill2_Hit"));
+								if(pSkill->back()->GetstrKey() == "Skill2_Hit")
+								{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+
+								}
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
 							}
-							if((*iter)->GetstrKey() == "Skill3Ball_LEFT" ||  (*iter)->GetstrKey() =="Skill3Ball_RIGHT")						
+							if((*iter)->GetstrKey() == "Skill3Ball_LEFT" )						
 							{
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();						
-							//pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,301.f,201.f,0,"Bolt_Hit"));
-						
+							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,212.f,205.f,0,"Skill3Hit_LEFT"));
+								if(pSkill->back()->GetstrKey() == "Skill3Hit_LEFT")
+								{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+
+								}
+							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
+							(*iter)->Sethit(true);
+							}
+
+							else if((*iter)->GetstrKey() == "Skill3Ball_RIGHT" )						
+							{
+							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
+							((CMonster*)(*iter2))->MonsterHit();						
+							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,212.f,205.f,0,"Skill3Hit_RIGHT"));
+								if(pSkill->back()->GetstrKey() == "Skill3Hit_RIGHT")
+								{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+
+								}
+							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
 							}
 							
@@ -188,8 +279,14 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							((CMonster*)(*iter2))->MonsterHit();		
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,373.f,224.f,0,"Skill1HitR"));
-												
-						
+								if(pSkill->back()->GetstrKey() == "Skill1HitR")
+								{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+
+								}
+							
 							(*iter)->Sethit(true);
 							}
 							
@@ -198,12 +295,17 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();						
 							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,373.f,224.f,0,"Skill1HitL"));
+							if(pSkill->back()->GetstrKey() == "Skill1HitL")
+							{
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+33.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX+66.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+
+							}
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
 							}
-							
-							
-
+						
 						}
 							
 						if((*iter2)->GetInfo().fHP<=0)
@@ -213,28 +315,14 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 						}
 						else
 						{
-						
 							++iter2;
 						}
-
-					
-					
 					}
-
 				}
 				else
 					++iter2;
-				
-				if(iter == pSkill->end())
-				break;
-					
-		}
-			
-			if(iter == pSkill->end())
-				break;
-
+		}	
 	}
-
 }
 
 void CCollisionMgr::MonsterCollision(list<CObj*>* pPlayer, list<CObj*>* pMonster)

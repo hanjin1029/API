@@ -59,8 +59,8 @@ public:
 		
 		pObj->SetDrawKey(_strName);
 		pObj->SetSize(_fCX, _fCY);	
-		pObj->SetAttack(_iAttack);
 		pObj->Initialize();
+		pObj->SetAttack(_iAttack);
 		pObj->SetPos(_fX, _fY);
 
 		return pObj;

@@ -137,7 +137,7 @@ void CPlayer::KeyCheck(void)
 		if(m_strKey == "Player_LEFT")
 		{
 			m_strSkill = "Bolt_LEFT";
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 730.f, 427.f, 20, m_strSkill));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 730.f, 427.f, 234, m_strSkill));
 			
 			
 		}
@@ -145,7 +145,7 @@ void CPlayer::KeyCheck(void)
 		{	
 			
 			m_strSkill = "Bolt_RIGHT";
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,  730.f, 427.f, 20, m_strSkill));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,  730.f, 427.f, 234, m_strSkill));
 			
 		}
 	
@@ -166,7 +166,7 @@ void CPlayer::KeyCheck(void)
 			{
 		
 				m_strSkill = "Skill3Ball_LEFT";
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 100.f, m_tInfo.fY, 281.f, 116.f, 15 , m_strSkill));
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 100.f, m_tInfo.fY, 281.f, 116.f, 125 , m_strSkill));
 			
 				
 			}
@@ -182,7 +182,7 @@ void CPlayer::KeyCheck(void)
 			{	
 				m_strSkill = "Skill3Ball_RIGHT";
 			
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 100.f, m_tInfo.fY, 281.f, 116.f, 15 , m_strSkill));
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 100.f, m_tInfo.fY, 281.f, 116.f, 125 , m_strSkill));
 			
 			}
 			
@@ -198,13 +198,13 @@ void CPlayer::KeyCheck(void)
 		if(m_strKey == "Player_LEFT")
 		{
 			m_strSkill = "Skill2_LEFT";
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 630.f,230.f, 50,  m_strSkill));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 630.f,230.f, 143,  m_strSkill));
 			
 		}
 		else
 		{
 			m_strSkill = "Skill2_RIGHT";
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 630.f,230.f, 50, m_strSkill));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 630.f,230.f, 143, m_strSkill));
 		
 		}
 
@@ -222,7 +222,7 @@ void CPlayer::KeyCheck(void)
 			{
 		
 				m_strSkill = "Skill1Ball_LEFT";
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 100.f, m_tInfo.fY,303.f,57.f, 15 , m_strSkill));
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 100.f, m_tInfo.fY,303.f,57.f, 185 , m_strSkill));
 			
 				
 			}
@@ -237,8 +237,7 @@ void CPlayer::KeyCheck(void)
 			if(m_strSkill == "Skill1Effect_RIGHT")
 			{	
 				m_strSkill = "Skill1Ball_RIGHT";
-			
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 100.f, m_tInfo.fY,303.f, 57.f, 15 , m_strSkill));
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 100.f, m_tInfo.fY,303.f, 57.f, 185 , m_strSkill));
 				
 			}
 			
@@ -456,3 +455,4 @@ string CPlayer::GetSkillDir(void)
 {
 	return m_strSkill;
 }
+

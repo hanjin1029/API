@@ -2,6 +2,7 @@
 #include "DamageSkin.h"
 
 CDamageSkin::CDamageSkin(void)
+: m_dwTime(GetTickCount())
 {
 }
 
@@ -11,8 +12,8 @@ CDamageSkin::~CDamageSkin(void)
 
 void CDamageSkin::Initialize(void)
 {
-	m_tInfo = INFO(0, 0, 40.6f, 45.f, 0, 0);
-	m_strKey = "DamageSkin2";
+	m_tInfo = INFO(0, 0, 33.f, 38.f, 0, 0);
+	m_strKey = "DamageSkin1";
 	m_tFrame = FRAME(0,10,0, 100);
 	
 }
@@ -23,12 +24,14 @@ int CDamageSkin::Progress(void)
 	{
 		m_dwTime = GetTickCount();
 
-		++m_tFrame.iStart;
+		m_tFrame.iStart = m_tInfo.iAttack;
 	}
-
-	if(m_strKey == "DamageSkin2")
+	
+	if(m_strKey == "DamageSkin1")
 	{
-		m_tFrame.dwTime = 40;
+		m_tFrame.dwTime = 80;
+		m_tInfo.fY -= 5.f;
+		
 	}
 
 

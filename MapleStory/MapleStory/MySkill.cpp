@@ -79,6 +79,8 @@ int CMySkill::Progress(void)
 			m_tFrame.dwTime = 100;
 	}
 
+
+
 	return 0;
 
 }

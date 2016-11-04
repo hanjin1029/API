@@ -29,8 +29,8 @@ void	CTown::Initialize(void)
 	
 	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Info_0.bmp");
 	m_BitMap["Portal"] = (new CBitBmp)->LoadBmp(L"../Texture/Portal.bmp");
-	m_BitMap["DamageSkin1"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageNum.bmp");
-	m_BitMap["DamageSkin2"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageNum2.bmp");
+	m_BitMap["DamageSkin1"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageSkin00.bmp");
+
 
 	m_BitMap["back"] = (new CBitBmp)->LoadBmp(L"../Texture/BackBuffer.bmp");
 
@@ -48,11 +48,13 @@ void	CTown::Initialize(void)
 	m_BitMap["Skill1HitL"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill1HitL.bmp");
 	m_BitMap["Skill2_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Annihilation_LEFT.bmp");
 	m_BitMap["Skill2_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Annihilation_RIGHT.bmp");
+	m_BitMap["Skill2_Hit"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill2Hit.bmp");
 	m_BitMap["Skill3Effect_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill3EffectR.bmp");
 	m_BitMap["Skill3Effect_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill3EffectL.bmp");
 	m_BitMap["Skill3Ball_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/SKill2/Skill3BallL.bmp");
 	m_BitMap["Skill3Ball_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/SKill2/Skill3BallR.bmp");
-	
+	m_BitMap["Skill3Hit_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill3hitR.bmp");
+	m_BitMap["Skill3Hit_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill3hitL.bmp");
 	m_BitMap["town"] = (new CBitBmp)->LoadBmp(L"../Texture/town.bmp");
 	m_BitMap["Filed1"] = (new CBitBmp)->LoadBmp(L"../Texture/04.Map/Field1.bmp");
 
@@ -81,21 +83,22 @@ void	CTown::Initialize(void)
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(30.f,WINCY-160));
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(3000.f,WINCY-160));
 	
+	
 
 	for(int i=0; i<6; ++i)
 	{
-	m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*200, WINCY-150, 100.f, 100.f, 100.f,  "SlimeL"));
+	m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*200, WINCY-150, 100.f, 100.f, 2000.f,  "SlimeL"));
 	}
 
 	for(int i=0; i<3; ++i)
 	{
-		m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*400, WINCY-300, 70.f, 70.f, 120.f, "BlueL"));
+		m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*400, WINCY-300, 70.f, 70.f, 3200.f, "BlueL"));
 	
 	}
 
 	for(int i=0; i<3; ++i)
 	{
-		m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*80, WINCY-300, 70.f, 70.f, 120.f, "BlueL"));
+		m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*80, WINCY-300, 70.f, 70.f, 3200.f, "BlueL"));
 	
 	}
 	((CPlayer*)m_ObjList[OBJ_PLAYER].back())->SetSkill(&m_ObjList[OBJ_SKILL]);
@@ -111,7 +114,7 @@ int CTown::Progress(void)
 	
 	
 	if(GetAsyncKeyState(VK_RETURN))
-		CDevice::GetInstance()->SoundStop(0);
+		CDevice::GetInstance()->SoundStop(1);
 
 	for(size_t i = 0; i < OBJ_END; ++i)
 	{
