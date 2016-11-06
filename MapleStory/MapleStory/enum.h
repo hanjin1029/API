@@ -2,7 +2,7 @@
 
 enum OBJID
 {
-	OBJ_PLAYER,
+
 	OBJ_SKILL,
 	OBJ_MONSTER,
 	OBJ_UI,

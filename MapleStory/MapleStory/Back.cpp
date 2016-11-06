@@ -3,6 +3,7 @@
 
 CBack::CBack(void)
 {
+
 }
 
 CBack::~CBack(void)
@@ -12,8 +13,6 @@ CBack::~CBack(void)
 
 void CBack::Initialize(void)
 {
-	m_strKey = "town";
-	m_tInfo = INFO(0.f, 0.f, 3090.f, 600.f,0,0);
 
 }
 

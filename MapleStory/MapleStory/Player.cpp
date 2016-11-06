@@ -51,12 +51,12 @@ if(m_bJump)
 	{
 		m_fTime += 0.2f;
 		m_tInfo.fY += -9.f + (0.98f * m_fTime * m_fTime) / 2.f ;
-			
+		m_dwState = ST_JUMP;	
 	}
 
 else if(m_bGravity)
 	{
-		m_tInfo.fY += 9.f;
+		m_tInfo.fY += 11.f;
 	
 	}
 
@@ -71,17 +71,20 @@ else if(m_bGravity)
 
 	if(m_tFrame.iStart >= m_tFrame.iLast)
 	{
-		if(m_dwState != ST_STAND && m_dwState != ST_DOWN )
+		if(m_dwState != ST_STAND && m_dwState != ST_DOWN && m_dwState != ST_JUMP  && m_dwState != ST_UP)
 			m_dwState = ST_STAND;
+
+
 
 		m_tFrame.iStart = 0;
 	}
 
 	SetState(ST_STAND, 5, 0, 80);	
-	SetState(ST_WALK, 4, 5, 60);
-	SetState(ST_JUMP, 1, 1, 80);
+	SetState(ST_WALK, 4, 5, 70);
+	SetState(ST_JUMP, 1, 1, 60);
 	SetState(ST_ATTACK, 3, 3, 90);
 	SetState(ST_DOWN, 1, 6, 90);
+
 	
 	//SetState(ST_DAMAGE, 2, 3, 80);
 	//SetState(ST_DEATH, 4, 4, 80);
@@ -98,12 +101,10 @@ void CPlayer::KeyCheck(void)
 	if(!m_dwKey && (m_dwState & ST_ATTACK))
 		m_dwState = ST_ATTACK;
 
-	if(m_dwKey && !(m_dwState & ST_ATTACK))
+	if(m_dwKey && !(m_dwState & ST_ATTACK) && !(m_dwState&ST_UP))
 		m_dwState = ST_WALK;
-
-	if(m_dwKey && !(m_dwState & ST_WALK) & !ST_ATTACK)
-		m_dwState = ST_JUMP;
-
+	
+	
 
 
 	if(m_dwState == ST_ATTACK)
@@ -116,8 +117,9 @@ void CPlayer::KeyCheck(void)
 		m_tInfo.fX += m_fSpeed;
 
 	if(m_dwKey & KEY_UP)
-		m_tInfo.fY -= m_fSpeed;
-
+	{
+		//m_tInfo.fY -= m_fSpeed;
+	}
 	if(m_dwKey & KEY_DOWN)
 	{
 		m_dwState = ST_DOWN;
@@ -148,8 +150,6 @@ void CPlayer::KeyCheck(void)
 			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,  730.f, 427.f, 234, m_strSkill));
 			
 		}
-	
-
 	
 	}
 
@@ -250,10 +250,10 @@ void CPlayer::KeyCheck(void)
 	if(m_dwKey & KEY_Z)
 	{
 		
+		m_dwState = ST_JUMP;
 		if(m_bJump)
 			return;
 
-		m_dwState = ST_JUMP;
 		m_bJump = true;
 		m_bGravity = false;
 	
@@ -276,14 +276,12 @@ void CPlayer::Direction(void)
 		m_strKey = "Player_LEFT";
 		
 	}
-
 	
-
-
-	/*
 	if(m_dwKey & KEY_UP)
+	{
 		m_strKey = "Player_UP";
-
+	}
+	/*
 	if(m_dwKey & KEY_DOWN)
 		m_strKey = "Player_DOWN";
 

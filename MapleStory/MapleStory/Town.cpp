@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Town.h"
 #include "ObjFactory.h"
+#include "SceneMgr.h"
 #include "Back.h"
 #include "Player.h"
 #include "Monster.h"
@@ -12,9 +13,11 @@
 #include "Portal.h"
 #include "Device.h"
 
-CTown::CTown(void)
 
+CTown::CTown(void)
 {
+
+
 }
 
 CTown::~CTown(void)
@@ -27,7 +30,7 @@ void	CTown::Initialize(void)
 
 	LoadData();
 	
-	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Info_0.bmp");
+	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Info_56.bmp");
 	m_BitMap["Portal"] = (new CBitBmp)->LoadBmp(L"../Texture/Portal.bmp");
 	m_BitMap["DamageSkin1"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageSkin00.bmp");
 
@@ -37,6 +40,7 @@ void	CTown::Initialize(void)
 
 	m_BitMap["Player_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerRR.bmp");
 	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerL.bmp");
+	m_BitMap["Player_UP"]  = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerUP.bmp");
 	m_BitMap["Bolt_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill2BoltR.bmp");
 	m_BitMap["Bolt_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill2BoltL.bmp");
 	m_BitMap["Bolt_Hit"] = (new CBitBmp)->LoadBmp(L"../Texture/SKill2/Skill2BoltHit.bmp");
@@ -56,7 +60,7 @@ void	CTown::Initialize(void)
 	m_BitMap["Skill3Hit_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill3hitR.bmp");
 	m_BitMap["Skill3Hit_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill3hitL.bmp");
 	m_BitMap["town"] = (new CBitBmp)->LoadBmp(L"../Texture/town.bmp");
-	m_BitMap["Filed1"] = (new CBitBmp)->LoadBmp(L"../Texture/04.Map/Field1.bmp");
+
 
 	m_BitMap["SlimeL"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/SlimL.bmp");
 	m_BitMap["SlimeR"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/SlimR.bmp");
@@ -73,14 +77,16 @@ void	CTown::Initialize(void)
 	CDevice::GetInstance()->SoundPlay(1, 1);
 
 
-	m_pBack = CObjFactory<CBack>::CreateObj();
-	
-	m_ObjList[OBJ_PLAYER].push_back(CObjFactory<CPlayer>::CreateObj());
+	m_pBack = CObjFactory<CBack>::CreateObj(0,0,3090.f, 600.f,"town");
+	m_pPlayer = CObjFactory<CPlayer>::CreateObj(WINCX/2.f, WINCY/2.f);
 
+	//m_ObjList[OBJ_PLAYER].push_back(CObjFactory<CPlayer>::CreateObj());
+
+	
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
 
-	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(30.f,WINCY-160));
+	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(50.f,WINCY-160));
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(3000.f,WINCY-160));
 	
 	
@@ -101,8 +107,8 @@ void	CTown::Initialize(void)
 		m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*80, WINCY-300, 70.f, 70.f, 3200.f, "BlueL"));
 	
 	}
-	((CPlayer*)m_ObjList[OBJ_PLAYER].back())->SetSkill(&m_ObjList[OBJ_SKILL]);
-
+//	((CPlayer*)m_ObjList[OBJ_PLAYER].back())->SetSkill(&m_ObjList[OBJ_SKILL]);
+	((CPlayer*)m_pPlayer)->SetSkill(&m_ObjList[OBJ_SKILL]);
 	
 	CObjMgr::GetInst()->SetObjList(m_ObjList);
 	CObj::SetBitMap(&m_BitMap);
@@ -111,7 +117,7 @@ void	CTown::Initialize(void)
 int CTown::Progress(void)
 {
 	m_pBack->Progress();
-	
+	m_pPlayer->Progress();
 	
 	if(GetAsyncKeyState(VK_RETURN))
 		CDevice::GetInstance()->SoundStop(1);
@@ -129,11 +135,17 @@ int CTown::Progress(void)
 		}
 	}
 
-
+	if(m_pPlayer->GetInfo().fX >= 3000.f)  
+	{
+		if(((CPlayer*)m_pPlayer)->GetstrKey() == "Player_UP")
+		{	
+		CSceneMgr::GetInst()->SetScene(SC_FIELD1);	
+		return 0;
+		}
+	}
 	
-	CCollisionMgr::TileCollision(&m_ObjList[OBJ_PLAYER], &m_vecTile);
-	
-
+	//CCollisionMgr::TileCollision(&m_ObjList[OBJ_MONSTER], &m_vecTile);
+	CCollisionMgr::TileCollision(m_pPlayer, &m_vecTile);
 	CCollisionMgr::SkillCollision(&m_ObjList[OBJ_SKILL], &m_ObjList[OBJ_MONSTER]);
 	
 	
@@ -147,7 +159,7 @@ int CTown::Progress(void)
 void CTown::Render(HDC hdc)
 {
 	m_pBack->Render(m_BitMap["back"]->GetMemDC());
-	
+	m_pPlayer->Render(m_BitMap["back"]->GetMemDC());
 	
 
 	for(size_t i = 0; i < OBJ_END; ++i)
@@ -169,13 +181,13 @@ void CTown::Render(HDC hdc)
 		m_BitMap["back"]->GetMemDC(), 
 		0, 0, SRCCOPY);
 
-	CRenderMgr::GetInst()->ObjClear();
+	//CRenderMgr::GetInst()->ObjClear();
 
 }
 
 void CTown::Release(void)
 {
-	::Safe_Delete(m_pBack);
+	 ::Safe_Delete(m_pBack);
 
 	for(size_t i = 0; i < OBJ_END; ++i)
 	{

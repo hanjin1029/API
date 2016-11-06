@@ -39,5 +39,6 @@ void CBitBmp::Release(void)
 
 HDC CBitBmp::GetMemDC(void)
 { 
-	return m_MemDC; 
+
+ 	return m_MemDC; 
 }

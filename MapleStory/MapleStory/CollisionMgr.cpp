@@ -7,7 +7,6 @@
 #include "ObjFactory.h"
 #include "MySkill.h"
 
-DWORD	CCollisionMgr::m_dwTime(GetTickCount());
 
 CCollisionMgr::CCollisionMgr(void)
 {
@@ -348,15 +347,15 @@ void CCollisionMgr::MonsterCollision(list<CObj*>* pPlayer, list<CObj*>* pMonster
 					if(iWidth > iHeight) // 상하충돌
 					{
 					
-							
+						(*iter)->SetDamage(iWidth);
 									
 					}
 
 					else // 좌우
 					{
-						
-					
-
+						(*iter)->SetDamage(iHeight);
+									
+				
 					}
 					
 				
@@ -369,4 +368,41 @@ void CCollisionMgr::MonsterCollision(list<CObj*>* pPlayer, list<CObj*>* pMonster
 		}
 	}
 
+}
+
+void CCollisionMgr::TileCollision(CObj* pPlayer, vector<TILE*>* pTile)
+{
+	RECT		rcCol;
+
+
+		for(vector<TILE*>::iterator	iter = pTile->begin();
+			iter != pTile->end(); ++iter)
+		{
+			
+			if((*iter)->iDrawID == 1)
+			{
+				if(IntersectRect(&rcCol, &(pPlayer)->GetRect(), &(*iter)->GetRect()))
+				{
+					
+
+					int iHeight = rcCol.bottom  - rcCol.top ;
+					int iWidth = rcCol.right  - rcCol.left ; 
+
+					if(iWidth > iHeight) // 상하충돌
+					{
+				
+							pPlayer->SetMinusY(iHeight);
+							((CPlayer*)(pPlayer))->SetJump(false);
+							((CPlayer*)(pPlayer))->SetGravity(true);
+							((CPlayer*)(pPlayer))->SetTime(0.f);
+							
+									
+					}
+					
+				
+				}
+		
+			}
+		}
+	
 }

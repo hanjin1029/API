@@ -20,10 +20,6 @@ void CLogin::Initialize(void)
 {
 	m_BitMap["back"] = (new CBitBmp)->LoadBmp(L"../Texture/BackBuffer.bmp");
 	m_BitMap["menu"] = (new CBitBmp)->LoadBmp(L"../Texture/menu1.bmp");
-
-	/*m_BitMap["Start"] = (new CBitBmp)->LoadBmp(L"../Texture/Button/Start.bmp");
-	m_BitMap["Edit"] = (new CBitBmp)->LoadBmp(L"../Texture/Button/Edit.bmp");
-	m_BitMap["Exit"] = (new CBitBmp)->LoadBmp(L"../Texture/Button/Exit.bmp");*/
 	
 	m_BitMap["Start"] = (new CBitBmp)->LoadBmp(L"../Texture/Button/Start2.bmp");
 	m_BitMap["Edit"] = (new CBitBmp)->LoadBmp(L"../Texture/Button/Edit2.bmp");

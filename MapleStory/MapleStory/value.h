@@ -5,8 +5,10 @@ extern HWND g_hWnd;
 const int WINCX = 800;
 const int WINCY = 600;
 
-const int TILEX = 77;
-const int TILEY = 15;
+
+
+const int TILEX = 37;
+const int TILEY = 34;
 
 const int TILECX = 40;
 const int TILECY = 40;

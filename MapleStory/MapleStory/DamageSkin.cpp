@@ -29,7 +29,7 @@ int CDamageSkin::Progress(void)
 	
 	if(m_strKey == "DamageSkin1")
 	{
-		m_tFrame.dwTime = 80;
+		m_tFrame.dwTime = 40;
 		m_tInfo.fY -= 5.f;
 		
 	}

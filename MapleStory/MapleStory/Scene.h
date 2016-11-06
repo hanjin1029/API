@@ -2,12 +2,13 @@
 
 #include "Include.h"
 
+class CObj;
 class CBitBmp;
 class CScene
 {
 protected:
 	map<string, CBitBmp*>		m_BitMap;
-	
+	static CObj*				m_pPlayer;
 
 
 public:

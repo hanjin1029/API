@@ -1,8 +1,12 @@
 #include "StdAfx.h"
 #include "Scene.h"
+#include "ObjFactory.h"
+#include "Player.h"
 
+CObj*	CScene::m_pPlayer(NULL);
 CScene::CScene(void)
 {
+	
 }
 
 CScene::~CScene(void)
@@ -15,3 +19,5 @@ CScene::~CScene(void)
 	}
 	m_BitMap.clear();
 }
+
+

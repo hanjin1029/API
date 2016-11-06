@@ -40,7 +40,7 @@ void CKeyMgr::KeyCheck(void)
 	if(GetAsyncKeyState('A') & 0x8000)
 		m_dwKey |= KEY_A;
 
-	if(GetAsyncKeyState('Z') & 0x8000)
+	if(GetAsyncKeyState('Z') & 1)
 		m_dwKey |= KEY_Z;
 
 	if(GetAsyncKeyState('S') & 0x8000)

@@ -24,3 +24,4 @@ const CObj* CObjMgr::GetObj(OBJID _eID) const
 
 	return (*iter);
 }
+

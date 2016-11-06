@@ -1,6 +1,8 @@
 #pragma once
 #include "scene.h"
 
+
+
 class CBitBmp;
 class CMyEdit :
 	public CScene
