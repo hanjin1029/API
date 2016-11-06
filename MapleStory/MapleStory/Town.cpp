@@ -11,10 +11,15 @@
 #include "PlayerUI.h"
 #include "CollisionMgr.h"
 #include "Portal.h"
+#include "Inventory.h"
+#include "Equip.h"
 #include "Device.h"
 
 
 CTown::CTown(void)
+: m_dwTime(GetTickCount())
+, m_fCX(3090.f)
+, m_fCY(600.f)
 {
 
 
@@ -33,7 +38,8 @@ void	CTown::Initialize(void)
 	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Info_56.bmp");
 	m_BitMap["Portal"] = (new CBitBmp)->LoadBmp(L"../Texture/Portal.bmp");
 	m_BitMap["DamageSkin1"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageSkin00.bmp");
-
+	m_BitMap["Inven"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Inven_0.bmp");
+	m_BitMap["Equip"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Equip_0.bmp");
 
 	m_BitMap["back"] = (new CBitBmp)->LoadBmp(L"../Texture/BackBuffer.bmp");
 
@@ -79,7 +85,8 @@ void	CTown::Initialize(void)
 
 	m_pBack = CObjFactory<CBack>::CreateObj(0,0,3090.f, 600.f,"town");
 	m_pPlayer = CObjFactory<CPlayer>::CreateObj(WINCX/2.f, WINCY/2.f);
-
+	m_pInven = CObjFactory<CInventory>::CreateObj();
+	m_pEquip = CObjFactory<CEquip>::CreateObj();
 	//m_ObjList[OBJ_PLAYER].push_back(CObjFactory<CPlayer>::CreateObj());
 
 	
@@ -91,25 +98,12 @@ void	CTown::Initialize(void)
 	
 	
 
-	for(int i=0; i<6; ++i)
-	{
-	m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*200, WINCY-150, 100.f, 100.f, 2000.f,  "SlimeL"));
-	}
-
-	for(int i=0; i<3; ++i)
-	{
-		m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*400, WINCY-300, 70.f, 70.f, 3200.f, "BlueL"));
 	
-	}
 
-	for(int i=0; i<3; ++i)
-	{
-		m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*80, WINCY-300, 70.f, 70.f, 3200.f, "BlueL"));
-	
-	}
 //	((CPlayer*)m_ObjList[OBJ_PLAYER].back())->SetSkill(&m_ObjList[OBJ_SKILL]);
 	((CPlayer*)m_pPlayer)->SetSkill(&m_ObjList[OBJ_SKILL]);
-	
+
+
 	CObjMgr::GetInst()->SetObjList(m_ObjList);
 	CObj::SetBitMap(&m_BitMap);
 }
@@ -118,9 +112,16 @@ int CTown::Progress(void)
 {
 	m_pBack->Progress();
 	m_pPlayer->Progress();
-	
+	m_pInven->Progress();
+	m_pEquip->Progress();
+
+	((CPlayer*)m_pPlayer)->SetScrollX(m_fCX);
+	((CPlayer*)m_pPlayer)->SetScrollY(m_fCY);
+
 	if(GetAsyncKeyState(VK_RETURN))
 		CDevice::GetInstance()->SoundStop(1);
+
+
 
 	for(size_t i = 0; i < OBJ_END; ++i)
 	{
@@ -134,6 +135,9 @@ int CTown::Progress(void)
 			
 		}
 	}
+
+
+
 
 	if(m_pPlayer->GetInfo().fX >= 3000.f)  
 	{
@@ -150,7 +154,7 @@ int CTown::Progress(void)
 	
 	
 
-	//CCollisionMgr::MonsterCollision(&m_ObjList[OBJ_PLAYER], &m_ObjList[OBJ_MONSTER]);
+//	CCollisionMgr::MonsterCollision(m_pPlayer, &m_ObjList[OBJ_MONSTER]);
 
 	return 0;
 
@@ -161,6 +165,34 @@ void CTown::Render(HDC hdc)
 	m_pBack->Render(m_BitMap["back"]->GetMemDC());
 	m_pPlayer->Render(m_BitMap["back"]->GetMemDC());
 	
+	if(GetKeyState('I') & 0x0001)
+	{
+		m_pInven->Render(m_BitMap["back"]->GetMemDC());
+	}
+
+
+
+	if(GetKeyState('E') & 0x0001)
+	{
+		m_pEquip->Render(m_BitMap["back"]->GetMemDC());
+	}
+	
+
+	if(m_dwTime + 10000 < GetTickCount())
+	{
+		m_dwTime = GetTickCount();
+		for (int i= 0; i<3; ++i)
+		{
+		CObj*	pMonster = CreateMonster(500.f+((i+1)*50),WINCY-150.f,100.f,100.f,1000.f,"SlimeL");
+		m_ObjList[OBJ_MONSTER].push_back(pMonster);
+		}
+
+		for (int i= 0; i<3; ++i)
+		{
+		CObj*	pMonster = CreateMonster(1500.f+((i+1)*50),WINCY-150.f,70.f,70.f,800.f,"BlueL");
+		m_ObjList[OBJ_MONSTER].push_back(pMonster);
+		}
+	}
 
 	for(size_t i = 0; i < OBJ_END; ++i)
 	{
@@ -215,7 +247,7 @@ void CTown::LoadData(void)
 	DWORD		dwByte = 0;
 
 	
-	hFile = CreateFile(L"../Data/Map.dat", 
+	hFile = CreateFile(L"../Data/Map1.dat", 
 		GENERIC_READ, 
 		0, 
 		NULL, 
@@ -238,6 +270,7 @@ void CTown::LoadData(void)
 		m_vecTile.push_back(pTile);
 	}
 
+
 	
 
 	CloseHandle(hFile);
@@ -251,4 +284,5 @@ CObj* CTown::CreateMonster(float _fX, float _fY, float _fCX, float _fCY, float _
 	return pMonster;
 
 }
+
 

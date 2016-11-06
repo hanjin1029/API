@@ -14,6 +14,8 @@ private:
 	POINT	m_ptOffset;
 	list<CObj*>*	m_pSkill;
 	vector	<TILE*> m_pTile;
+	float  _fX;
+	float  _fY;
 
 
 private:
@@ -34,6 +36,8 @@ public:
 	void	SetJump(bool bJump);
 	void	SetGravity(bool bGravity);
 	void	SetTime(float fTime);
+	void    SetScrollX(float _fX);
+	void	SetScrollY(float _fY);
 
 	void	SetSkill(list <CObj*>* _pSkill);
 	CObj*	CreateSkill(float _fX, float _fY, float _fCX, float _fCY, int _iAttack , string _strSkillName);

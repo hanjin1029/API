@@ -40,7 +40,7 @@ void CKeyMgr::KeyCheck(void)
 	if(GetAsyncKeyState('A') & 0x8000)
 		m_dwKey |= KEY_A;
 
-	if(GetAsyncKeyState('Z') & 1)
+	if(GetAsyncKeyState('Z') & 0x8000)
 		m_dwKey |= KEY_Z;
 
 	if(GetAsyncKeyState('S') & 0x8000)
@@ -53,14 +53,6 @@ void CKeyMgr::KeyCheck(void)
 	if(GetAsyncKeyState('F') & 0x8000)
 		m_dwKey |= KEY_F;
 
-	if(GetAsyncKeyState('I') & 0x8000)
-		m_dwKey |= KEY_I;
-
-	if(GetAsyncKeyState('E') & 0x8000)
-		m_dwKey |= KEY_E;
-
-	if(GetAsyncKeyState('K') & 0x8000)
-		m_dwKey |= KEY_K;
 }
 
 DWORD CKeyMgr::GetKey(void)

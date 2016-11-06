@@ -11,8 +11,13 @@ private:
 	list<CObj*>		m_ObjList[OBJ_END];
 	vector<TILE*>	m_vecTile;
 	CObj*			m_pBack;
-	
+	CObj*			m_pInven;
+	CObj*			m_pEquip;
 	string			m_strMonsterName;
+	float			m_fCX;
+	float			m_fCY;
+
+	DWORD			m_dwTime;
 
 
 public: 

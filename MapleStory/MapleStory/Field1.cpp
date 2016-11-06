@@ -11,9 +11,14 @@
 #include "PlayerUI.h"
 #include "CollisionMgr.h"
 #include "Portal.h"
+#include "Inventory.h"
+#include "Equip.h"
 #include "Device.h"
 
 CField1::CField1(void)
+: m_fCX(1502.f)
+, m_fCY(1364.f)
+, m_dwTime(GetTickCount())
 {
 
 }
@@ -31,6 +36,7 @@ void CField1::Initialize(void)
 
 	
 	CDevice::GetInstance()->LoadWave(L"../Sound/Field1.wav");
+	CDevice::GetInstance()->SoundStop(1);
 	CDevice::GetInstance()->SoundPlay(2, 1);
 	
 	m_BitMap["back"] = (new CBitBmp)->LoadBmp(L"../Texture/BackBuffer.bmp");
@@ -72,19 +78,11 @@ void CField1::Initialize(void)
 
 	m_pBack = CObjFactory<CBack>::CreateObj(0,0,1502.f,1364.f,"Field1");
 	
-	m_pPlayer->SetPos(40.f,1164);
+	m_pPlayer->SetPos(40.f,m_fCY-300);
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
-	for(int i=0; i<3; ++i)
-	{
-	m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*200, WINCY-150, 100.f, 100.f, 2000.f,  "SlimeL"));
-	}
-
-	for(int i=0; i<3; ++i)
-	{
-		m_ObjList[OBJ_MONSTER].push_back(CObjFactory<CMonster>::CreateObj((i+1)*400, WINCY-300, 70.f, 70.f, 3200.f, "BlueL"));
+	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(40.f,m_fCY-300));
 	
-	}
 
 
 	//CObjMgr::GetInst()->GetObj(OBJ_PLAYER);
@@ -97,7 +95,26 @@ int CField1::Progress(void)
 
 	m_pBack->Progress();
 	m_pPlayer->Progress();
+
+	((CPlayer*)m_pPlayer)->SetScrollX(m_fCX);
+	((CPlayer*)m_pPlayer)->SetScrollY(m_fCY);
 	
+		if(m_dwTime + 10000 < GetTickCount())
+	{
+		m_dwTime = GetTickCount();
+		for (int i= 0; i<3; ++i)
+		{
+		CObj*	pMonster = CreateMonster(300.f+((i+1)*50),m_fCY-270,100.f,100.f,1000.f,"SlimeL");
+		m_ObjList[OBJ_MONSTER].push_back(pMonster);
+		}
+
+		for (int i= 0; i<3; ++i)
+		{
+		CObj*	pMonster = CreateMonster(700.f+((i+1)*30), m_fCY-270,70.f,70.f,800.f,"BlueL");
+		m_ObjList[OBJ_MONSTER].push_back(pMonster);
+		}
+	}
+
 	for(size_t i = 0; i < OBJ_END; ++i)
 	{
 		for(list<CObj*>::iterator	iter = m_ObjList[i].begin();
@@ -172,7 +189,7 @@ void CField1::LoadData(void)
 	DWORD		dwByte = 0;
 
 	
-	hFile = CreateFile(L"../Data/Map3.dat", 
+	hFile = CreateFile(L"../Data/Map4.dat", 
 		GENERIC_READ, 
 		0, 
 		NULL, 

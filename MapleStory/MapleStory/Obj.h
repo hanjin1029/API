@@ -21,7 +21,6 @@ protected:
 
 	static	map<string, CBitBmp*>*		m_pBitMap;
 	static  POINT m_ptScroll;
-	
 
 
 public:
@@ -30,6 +29,8 @@ public:
 	string		GetstrKey(void);
 	bool		GetHit(void);
 	void		Sethit(bool bHit);
+
+
 	
 
 public:

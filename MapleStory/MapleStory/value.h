@@ -28,9 +28,7 @@ const DWORD		KEY_Z		= 0x00000080;
 const DWORD		KEY_S		= 0x00000100;
 const DWORD		KEY_D		= 0x00000200;
 const DWORD		KEY_F		= 0x00000400;
-const DWORD		KEY_I		= 0x00000800;
-const DWORD		KEY_E		= 0x00001000;
-const DWORD		KEY_K		= 0x00002000;
+
 
 // state °ª
 

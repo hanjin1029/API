@@ -360,6 +360,30 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="08. Inventory"
+				>
+				<File
+					RelativePath=".\Inventory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Inventory.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="09. Equip"
+				>
+				<File
+					RelativePath=".\Equip.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Equip.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="03. Mgr"

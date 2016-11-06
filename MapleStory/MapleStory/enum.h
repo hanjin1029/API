@@ -7,6 +7,7 @@ enum OBJID
 	OBJ_MONSTER,
 	OBJ_UI,
 	OBJ_PORTAL,
+	OBJ_INVEN,
 	OBJ_END
 };
 

@@ -324,21 +324,23 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 	}
 }
 
-void CCollisionMgr::MonsterCollision(list<CObj*>* pPlayer, list<CObj*>* pMonster)
+void CCollisionMgr::MonsterCollision(CObj* pPlayer, list<CObj*>* pMonster)
 {
 	RECT		rcCol;
 
-	for(list<CObj*>::iterator iter = pPlayer->begin();
-			iter != pPlayer->end(); ++iter )
-	{
-	
-		for(list<CObj*>::iterator iter2 = pMonster->begin();
-			iter2 != pMonster->end(); )
+		for(list<CObj*>::iterator iter = pMonster->begin();
+			iter != pMonster->end(); )
 
 		{
+
 		
-				if(IntersectRect(&rcCol, &(*iter)->GetRect(), &(*iter2)->GetRect()))
+				if(IntersectRect(&rcCol, &(pPlayer)->GetRect(), &(*iter)->GetRect()))
 				{
+					int iHundred = (*iter)->GetInfo().iAttack / 100;
+					int	iTen =((*iter)->GetInfo().iAttack - (iHundred * 100) )/ 10;
+					int iOne = (*iter)->GetInfo().iAttack - ((iHundred*100) + (iTen*10));
+					
+				
 					
 	
 					int iHeight = rcCol.bottom  - rcCol.top ;
@@ -346,27 +348,30 @@ void CCollisionMgr::MonsterCollision(list<CObj*>* pPlayer, list<CObj*>* pMonster
 
 					if(iWidth > iHeight) // 상하충돌
 					{
-					
-						(*iter)->SetDamage(iWidth);
+										
+						pPlayer->SetDamage(100);
 									
 					}
 
 					else // 좌우
 					{
-						(*iter)->SetDamage(iHeight);
-									
-				
+						
+						pPlayer->SetDamage(100);
+						pPlayer->SetMinusX(iWidth);	
+						pMonster->push_back(CObjFactory<CDamageSkin>::CreateObj(pPlayer->GetInfo().fX , pPlayer->GetInfo().fY,33.f,38.f, iHundred,"Damage"));
+					
+					
 					}
 					
 				
 				}
 				else
-					++iter2;
+					++iter;
 
 		
 			
 		}
-	}
+	
 
 }
 

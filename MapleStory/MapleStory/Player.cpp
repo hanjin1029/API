@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "KeyMgr.h"
 #include "MySkill.h"
+#include "Inventory.h"
 #include "ObjFactory.h"
 #include "DamageSkin.h"
 
@@ -89,8 +90,9 @@ else if(m_bGravity)
 	//SetState(ST_DAMAGE, 2, 3, 80);
 	//SetState(ST_DEATH, 4, 4, 80);
 
-	ScrollX();
-	ScrollY();
+	//ScrollX();
+	//ScrollY();
+
 
 	return 0;
 }
@@ -132,12 +134,16 @@ void CPlayer::KeyCheck(void)
 	if(m_dwKey & KEY_RETURN)
 		m_dwState = ST_DEATH;
 
-	
+
 	if(m_dwKey & KEY_A)
 
 	{
+		if(m_dwTime2 + 300 <GetTickCount())
+		{
+			
 		if(m_strKey == "Player_LEFT")
 		{
+			
 			m_strSkill = "Bolt_LEFT";
 			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 730.f, 427.f, 234, m_strSkill));
 			
@@ -148,13 +154,17 @@ void CPlayer::KeyCheck(void)
 			
 			m_strSkill = "Bolt_RIGHT";
 			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,  730.f, 427.f, 234, m_strSkill));
-			
+		
 		}
-	
+			m_dwTime2 = GetTickCount();
+		}
+		
 	}
 
 	if(m_dwKey & KEY_S)
 	{
+		if(m_dwTime2 + 500 < GetTickCount())
+		{
 	
 		if(m_strKey == "Player_LEFT")
 		{
@@ -170,7 +180,6 @@ void CPlayer::KeyCheck(void)
 			
 				
 			}
-				
 		
 		}
 		else
@@ -188,13 +197,16 @@ void CPlayer::KeyCheck(void)
 			
 		
 		}
-		
+		m_dwTime2 = GetTickCount();
+		}
 			
 
 	}
 		
 	if(m_dwKey & KEY_D)
 	{
+		if(m_dwTime2 + 500 < GetTickCount())
+		{
 		if(m_strKey == "Player_LEFT")
 		{
 			m_strSkill = "Skill2_LEFT";
@@ -207,11 +219,14 @@ void CPlayer::KeyCheck(void)
 			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 630.f,230.f, 143, m_strSkill));
 		
 		}
-
+		m_dwTime2 = GetTickCount();
+		}
 	}
 
 	if(m_dwKey & KEY_F)
 	{
+		if(m_dwTime2 + 300 < GetTickCount())
+		{
 		if(m_strKey == "Player_LEFT")
 		{
 			m_strSkill = "Skill1Effect_LEFT";
@@ -243,6 +258,8 @@ void CPlayer::KeyCheck(void)
 			
 		
 		}
+		m_dwTime2 = GetTickCount();
+	}
 
 	}
 
@@ -326,72 +343,72 @@ void CPlayer::SetState(DWORD dwState, int iLast, int iScene, DWORD dwTime)
 	}
 	
 }
-
-void CPlayer::ScrollX(void)
-{
-	// 좌측 끝
-	if(m_tInfo.fX < m_ptOffset.x)
-	{
-		if(m_ptScroll.x > 0 - m_fSpeed)
-		{
-			if(m_tInfo.fX < 0)
-				m_tInfo.fX = 0.f;
-
-			return;
-		}
-
-		m_ptScroll.x += (long)m_fSpeed;
-		m_ptOffset.x -= (long)m_fSpeed;
-	}
-
-	// 우측 끝
-	if(m_tInfo.fX > m_ptOffset.x)
-	{
-		if(m_ptScroll.x < WINCX - 3090.f + m_fSpeed)
-		{
-			if(m_tInfo.fX > 3090.f)
-				m_tInfo.fX = 3090.f;
-
-			return;
-		}
-
-		m_ptScroll.x -= (long)m_fSpeed;
-		m_ptOffset.x += (long)m_fSpeed;
-	}
-}
-
-void CPlayer::ScrollY(void)
-{
-	// 상단 끝
-	if(m_tInfo.fY < m_ptOffset.y)
-	{
-		if(m_ptScroll.y > 0 - m_fSpeed)
-		{
-			if(m_tInfo.fY < 0)
-				m_tInfo.fY = 0.f;
-
-			return;
-		}
-
-		m_ptScroll.y += (long)m_fSpeed;
-		m_ptOffset.y -= (long)m_fSpeed;
-	}
-
-	// 하단 끝
-	if(m_tInfo.fY > m_ptOffset.y)
-	{
-		if(m_ptScroll.y < WINCY - 600.f + m_fSpeed)
-		{
-			if(m_tInfo.fY > 600.f)
-				m_tInfo.fY = 600.f;
-
-			return;
-		}
-
-		m_ptScroll.y -= (long)m_fSpeed;
-		m_ptOffset.y += (long)m_fSpeed;
-	}
-}
+//
+//void CPlayer::ScrollX(void)
+//{
+//	// 좌측 끝
+//	if(m_tInfo.fX < m_ptOffset.x)
+//	{
+//		if(m_ptScroll.x > 0 - m_fSpeed)
+//		{
+//			if(m_tInfo.fX < 0)
+//				m_tInfo.fX = 0.f;
+//
+//			return;
+//		}
+//
+//		m_ptScroll.x += (long)m_fSpeed;
+//		m_ptOffset.x -= (long)m_fSpeed;
+//	}
+//
+//	// 우측 끝
+//	if(m_tInfo.fX > m_ptOffset.x)
+//	{
+//		if(m_ptScroll.x < WINCX - 3090.f + m_fSpeed)
+//		{
+//			if(m_tInfo.fX > 3090.f)
+//				m_tInfo.fX = 3090.f;
+//
+//			return;
+//		}
+//
+//		m_ptScroll.x -= (long)m_fSpeed;
+//		m_ptOffset.x += (long)m_fSpeed;
+//	}
+//}
+//
+//void CPlayer::ScrollY(void)
+//{
+//	// 상단 끝
+//	if(m_tInfo.fY < m_ptOffset.y)
+//	{
+//		if(m_ptScroll.y > 0 - m_fSpeed)
+//		{
+//			if(m_tInfo.fY < 0)
+//				m_tInfo.fY = 0.f;
+//
+//			return;
+//		}
+//
+//		m_ptScroll.y += (long)m_fSpeed;
+//		m_ptOffset.y -= (long)m_fSpeed;
+//	}
+//
+//	// 하단 끝
+//	if(m_tInfo.fY > m_ptOffset.y)
+//	{
+//		if(m_ptScroll.y < WINCY - 600.f + m_fSpeed)
+//		{
+//			if(m_tInfo.fY > 600.f)
+//				m_tInfo.fY = 600.f;
+//
+//			return;
+//		}
+//
+//		m_ptScroll.y -= (long)m_fSpeed;
+//		m_ptOffset.y += (long)m_fSpeed;
+//	}
+//}
 
 void CPlayer::Render(HDC hdc)
 {
@@ -454,3 +471,69 @@ string CPlayer::GetSkillDir(void)
 	return m_strSkill;
 }
 
+
+void CPlayer::SetScrollX(float _fX)
+{
+		// 좌측 끝
+	if(m_tInfo.fX < m_ptOffset.x)
+	{
+		if(m_ptScroll.x > 0 - m_fSpeed)
+		{
+			if(m_tInfo.fX < 0)
+				m_tInfo.fX = 0.f;
+
+			return;
+		}
+
+		m_ptScroll.x += (long)m_fSpeed;
+		m_ptOffset.x -= (long)m_fSpeed;
+	}
+
+	// 우측 끝
+	if(m_tInfo.fX > m_ptOffset.x)
+	{
+		if(m_ptScroll.x < WINCX - _fX + m_fSpeed)
+		{
+			if(m_tInfo.fX > _fX)
+				m_tInfo.fX = _fX;
+
+			return;
+		}
+
+		m_ptScroll.x -= (long)m_fSpeed;
+		m_ptOffset.x += (long)m_fSpeed;
+	}
+
+}
+
+void CPlayer::SetScrollY(float _fY)
+{
+		if(m_tInfo.fY < m_ptOffset.y)
+	{
+		if(m_ptScroll.y > 0 - m_fSpeed)
+		{
+			if(m_tInfo.fY < 0)
+				m_tInfo.fY = 0.f;
+
+			return;
+		}
+
+		m_ptScroll.y += (long)m_fSpeed;
+		m_ptOffset.y -= (long)m_fSpeed;
+	}
+
+	// 하단 끝
+	if(m_tInfo.fY > m_ptOffset.y)
+	{
+		if(m_ptScroll.y < WINCY - _fY + m_fSpeed)
+		{
+			if(m_tInfo.fY > _fY)
+				m_tInfo.fY = _fY;
+
+			return;
+		}
+
+		m_ptScroll.y -= (long)m_fSpeed;
+		m_ptOffset.y += (long)m_fSpeed;
+	}
+}
