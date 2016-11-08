@@ -12,6 +12,8 @@ private:
 	DWORD	m_dwTime;
 	DWORD	m_dwTime2;
 
+public:
+	DWORD	GetTime(void);
 
 public:
 	virtual void Initialize(void);

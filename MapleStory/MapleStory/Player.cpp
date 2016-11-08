@@ -15,6 +15,7 @@ CPlayer::CPlayer(void)
 , m_fTime(0)
 , m_bGravity(true)
 , m_pSkill(NULL)
+, m_bRope(false)
 {
 	
 }
@@ -61,11 +62,13 @@ else if(m_bGravity)
 		if(!m_dwKey )
 		{
 		m_dwState = ST_STAND;
+		m_bRope = false;
 		}
 	
 	}
 
-	
+
+
 
 	if(m_dwTime + m_tFrame.dwTime < GetTickCount())
 	{
@@ -109,14 +112,25 @@ void CPlayer::KeyCheck(void)
 		return;
 
 	if(m_dwKey & KEY_LEFT)
+	{
+		if(!m_bRope)
+		{
 		m_tInfo.fX -= m_fSpeed;
+		}
+	}
 
 	if(m_dwKey & KEY_RIGHT)
+		{
+		if(!m_bRope)
+		{
 		m_tInfo.fX += m_fSpeed;
-
+		}
+	}
 	if(m_dwKey & KEY_UP)
 	{
 		m_dwState = ST_UP;
+		/*m_tInfo.fY -= m_fSpeed;*/
+		
 	}
 	if(m_dwKey & KEY_DOWN)
 	{
@@ -143,7 +157,7 @@ void CPlayer::KeyCheck(void)
 			m_strSkill = "Bolt_LEFT";
 			
 			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 730.f, 427.f, iCritical, m_strSkill));
-			
+	
 			
 		}
 		else
@@ -298,6 +312,7 @@ void CPlayer::Direction(void)
 	{
 		m_strKey = "Player_UP";
 		m_dwState = ST_UP;
+		m_bRope = true;
 	}
 	/*
 	if(m_dwKey & KEY_DOWN)

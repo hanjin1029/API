@@ -16,6 +16,7 @@ private:
 	vector	<TILE*> m_pTile;
 	float  _fX;
 	float  _fY;
+	bool	m_bRope;
 
 
 private:

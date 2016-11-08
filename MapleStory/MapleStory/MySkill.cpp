@@ -36,7 +36,6 @@ int CMySkill::Progress(void)
 	if(m_strKey == "Bolt_RIGHT" || m_strKey == "Bolt_LEFT")
 	{
 		m_tFrame.dwTime = 60;
-		
 	}
 	
 
@@ -108,3 +107,7 @@ void CMySkill::Release(void)
 }
 
 
+DWORD	CMySkill::GetTime(void)
+{
+	return m_tFrame.dwTime;
+}
