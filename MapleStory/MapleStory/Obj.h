@@ -18,9 +18,11 @@ protected:
 	string		m_strKey;
 	int			m_iDrawID;
 	bool		m_bHit;
+	int			m_iCount;
 
 	static	map<string, CBitBmp*>*		m_pBitMap;
 	static  POINT m_ptScroll;
+	static	POINT m_ptOffset;
 
 
 public:
@@ -29,7 +31,8 @@ public:
 	string		GetstrKey(void);
 	bool		GetHit(void);
 	void		Sethit(bool bHit);
-
+	int			GetCount(void);
+	void		SetCount(int iCount);
 
 	
 

@@ -16,6 +16,7 @@ void CPortal::Initialize(void)
 	m_tInfo = INFO(0,  0, 88.f,126.f,0,0);
 	m_strKey = "Portal";
 	m_tFrame = FRAME(0, 4, 0, 80);
+	
 }
 
 int CPortal::Progress(void)

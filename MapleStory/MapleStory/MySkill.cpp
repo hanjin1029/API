@@ -7,6 +7,7 @@ CMySkill::CMySkill(void)
 : m_dwTime(GetTickCount())
 , m_dwTime2(GetTickCount())
 {
+	 m_iCount = 0;
 }
 
 CMySkill::~CMySkill(void)
@@ -19,6 +20,7 @@ void CMySkill::Initialize(void)
 	
 	m_tFrame = FRAME(0, 4, 0, 80);
 	m_fSpeed = 15.f;
+	
 }
 
 int CMySkill::Progress(void)
@@ -34,6 +36,7 @@ int CMySkill::Progress(void)
 	if(m_strKey == "Bolt_RIGHT" || m_strKey == "Bolt_LEFT")
 	{
 		m_tFrame.dwTime = 60;
+		
 	}
 	
 

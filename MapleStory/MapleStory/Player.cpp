@@ -140,12 +140,13 @@ void CPlayer::KeyCheck(void)
 	{
 		if(m_dwTime2 + 300 <GetTickCount())
 		{
-			
+		int iCritical = rand() % 8000 + 1800;
 		if(m_strKey == "Player_LEFT")
 		{
 			
 			m_strSkill = "Bolt_LEFT";
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 730.f, 427.f, 234, m_strSkill));
+			
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 730.f, 427.f, iCritical, m_strSkill));
 			
 			
 		}
@@ -153,7 +154,7 @@ void CPlayer::KeyCheck(void)
 		{	
 			
 			m_strSkill = "Bolt_RIGHT";
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,  730.f, 427.f, 234, m_strSkill));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,  730.f, 427.f, iCritical, m_strSkill));
 		
 		}
 			m_dwTime2 = GetTickCount();
@@ -165,7 +166,8 @@ void CPlayer::KeyCheck(void)
 	{
 		if(m_dwTime2 + 500 < GetTickCount())
 		{
-	
+		
+		int iCritical = rand() % 3000 + 1300;
 		if(m_strKey == "Player_LEFT")
 		{
 			m_strSkill = "Skill3Effect_LEFT";
@@ -176,7 +178,7 @@ void CPlayer::KeyCheck(void)
 			{
 		
 				m_strSkill = "Skill3Ball_LEFT";
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 100.f, m_tInfo.fY, 281.f, 116.f, 125 , m_strSkill));
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 100.f, m_tInfo.fY, 281.f, 116.f, iCritical , m_strSkill));
 			
 				
 			}
@@ -191,7 +193,7 @@ void CPlayer::KeyCheck(void)
 			{	
 				m_strSkill = "Skill3Ball_RIGHT";
 			
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 100.f, m_tInfo.fY, 281.f, 116.f, 125 , m_strSkill));
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 100.f, m_tInfo.fY, 281.f, 116.f, iCritical , m_strSkill));
 			
 			}
 			
@@ -207,16 +209,17 @@ void CPlayer::KeyCheck(void)
 	{
 		if(m_dwTime2 + 500 < GetTickCount())
 		{
+		int iCritical = rand() % 5000 + 1500;
 		if(m_strKey == "Player_LEFT")
 		{
 			m_strSkill = "Skill2_LEFT";
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 630.f,230.f, 143,  m_strSkill));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 630.f,230.f, iCritical,  m_strSkill));
 			
 		}
 		else
 		{
 			m_strSkill = "Skill2_RIGHT";
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 630.f,230.f, 143, m_strSkill));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 630.f,230.f, iCritical, m_strSkill));
 		
 		}
 		m_dwTime2 = GetTickCount();
@@ -227,6 +230,7 @@ void CPlayer::KeyCheck(void)
 	{
 		if(m_dwTime2 + 300 < GetTickCount())
 		{
+			int iCritical = rand() % 4000 + 1450;
 		if(m_strKey == "Player_LEFT")
 		{
 			m_strSkill = "Skill1Effect_LEFT";
@@ -237,7 +241,7 @@ void CPlayer::KeyCheck(void)
 			{
 		
 				m_strSkill = "Skill1Ball_LEFT";
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 100.f, m_tInfo.fY,303.f,57.f, 185 , m_strSkill));
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 100.f, m_tInfo.fY,303.f,57.f, iCritical , m_strSkill));
 			
 				
 			}
@@ -252,7 +256,7 @@ void CPlayer::KeyCheck(void)
 			if(m_strSkill == "Skill1Effect_RIGHT")
 			{	
 				m_strSkill = "Skill1Ball_RIGHT";
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 100.f, m_tInfo.fY,303.f, 57.f, 185 , m_strSkill));
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 100.f, m_tInfo.fY,303.f, 57.f, iCritical , m_strSkill));
 				
 			}
 			

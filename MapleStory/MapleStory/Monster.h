@@ -6,6 +6,7 @@ class CMonster :
 {
 private:
 	FRAME	m_tFrame;
+	
 	DWORD	m_dwState;
 	DWORD	m_dwTime;
 	DWORD	m_dwTime2;
@@ -23,6 +24,7 @@ public:
 	void	MonsterHit(void);
 	void	SetState(DWORD	ST);
 
+	
 
 public:
 	virtual void Initialize(void);

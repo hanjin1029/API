@@ -33,6 +33,7 @@ CTown::~CTown(void)
 void	CTown::Initialize(void)
 {
 
+
 	LoadData();
 	
 	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Info_56.bmp");
@@ -77,14 +78,22 @@ void	CTown::Initialize(void)
 	//사운드 파일 추가
 	
 	CDevice::GetInstance()->LoadWave(L"../Sound/Town.wav");
+	CDevice::GetInstance()->LoadWave(L"../Sound/Field1.wav");
 
 	
 	//사운드 재생
+	CDevice::GetInstance()->SoundStop(2);
 	CDevice::GetInstance()->SoundPlay(1, 1);
-
+	
+	
 
 	m_pBack = CObjFactory<CBack>::CreateObj(0,0,3090.f, 600.f,"town");
+
+	if(m_pPlayer == NULL)
+	{
 	m_pPlayer = CObjFactory<CPlayer>::CreateObj(WINCX/2.f, WINCY/2.f);
+	}
+
 	m_pInven = CObjFactory<CInventory>::CreateObj();
 	m_pEquip = CObjFactory<CEquip>::CreateObj();
 	//m_ObjList[OBJ_PLAYER].push_back(CObjFactory<CPlayer>::CreateObj());
@@ -150,6 +159,8 @@ int CTown::Progress(void)
 	
 	//CCollisionMgr::TileCollision(&m_ObjList[OBJ_MONSTER], &m_vecTile);
 	CCollisionMgr::TileCollision(m_pPlayer, &m_vecTile);
+
+
 	CCollisionMgr::SkillCollision(&m_ObjList[OBJ_SKILL], &m_ObjList[OBJ_MONSTER]);
 	
 	
@@ -178,15 +189,18 @@ void CTown::Render(HDC hdc)
 	}
 	
 
-	if(m_dwTime + 10000 < GetTickCount())
+	if(m_dwTime + 6000 < GetTickCount())
 	{
 		m_dwTime = GetTickCount();
+	
+	
+
 		for (int i= 0; i<3; ++i)
 		{
 		CObj*	pMonster = CreateMonster(500.f+((i+1)*50),WINCY-150.f,100.f,100.f,1000.f,"SlimeL");
 		m_ObjList[OBJ_MONSTER].push_back(pMonster);
 		}
-
+	
 		for (int i= 0; i<3; ++i)
 		{
 		CObj*	pMonster = CreateMonster(1500.f+((i+1)*50),WINCY-150.f,70.f,70.f,800.f,"BlueL");

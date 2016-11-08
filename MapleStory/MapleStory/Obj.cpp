@@ -121,6 +121,7 @@ void CObj::SetAttack(int iAttack)
 
 bool CObj::GetHit(void)
 {
+
 	return m_bHit;
 }
 
@@ -132,4 +133,15 @@ void CObj::Sethit(bool  bHit)
 void CObj::SetSpeed(float fSpeed)
 {
 	m_fSpeed = fSpeed;
+}
+
+int CObj::GetCount(void)
+{
+	return m_iCount;
+}
+
+void CObj::SetCount(int iCount)
+{
+	m_iCount += iCount;
+	
 }

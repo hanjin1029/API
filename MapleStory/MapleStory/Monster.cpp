@@ -7,8 +7,8 @@ CMonster::CMonster(void)
 : m_dwTime(GetTickCount())
 , m_dwTime2(GetTickCount())
 , m_dwTime3(GetTickCount())
-
 {
+	m_iCount = 1;
 }
 
 CMonster::~CMonster(void)

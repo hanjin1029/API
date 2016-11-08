@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "ObjMgr.h"
+#include "SceneMgr.h"
 #include "RenderMgr.h"
 #include "MySkill.h"
 #include "PlayerUI.h"
@@ -78,7 +79,7 @@ void CField1::Initialize(void)
 
 	m_pBack = CObjFactory<CBack>::CreateObj(0,0,1502.f,1364.f,"Field1");
 	
-	m_pPlayer->SetPos(40.f,m_fCY-300);
+	m_pPlayer->SetPos(43.f,m_fCY-300);
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(40.f,m_fCY-300));
@@ -99,7 +100,7 @@ int CField1::Progress(void)
 	((CPlayer*)m_pPlayer)->SetScrollX(m_fCX);
 	((CPlayer*)m_pPlayer)->SetScrollY(m_fCY);
 	
-		if(m_dwTime + 10000 < GetTickCount())
+	if(m_dwTime + 10000 < GetTickCount())
 	{
 		m_dwTime = GetTickCount();
 		for (int i= 0; i<3; ++i)
@@ -125,6 +126,17 @@ int CField1::Progress(void)
 		
 			CRenderMgr::GetInst()->AddObject(*iter);
 			
+		}
+	}
+
+	
+	if(m_pPlayer->GetInfo().fX <= 40.f)  
+	{
+		if(((CPlayer*)m_pPlayer)->GetstrKey() == "Player_UP")
+		{	
+		CSceneMgr::GetInst()->SetScene(SC_TOWN);	
+		((CPlayer*)m_pPlayer)->SetPos(2999.f, WINCY-m_fCY);
+		return 0;
 		}
 	}
 
