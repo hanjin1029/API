@@ -13,7 +13,6 @@ private:
 	DWORD	m_dwTime2;
 
 
-
 public:
 	virtual void Initialize(void);
 	virtual int Progress(void);

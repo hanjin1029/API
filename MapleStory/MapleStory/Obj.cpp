@@ -131,7 +131,7 @@ void CObj::Sethit(bool  bHit)
 }
 
 void CObj::SetSpeed(float fSpeed)
-{
+{\
 	m_fSpeed = fSpeed;
 }
 

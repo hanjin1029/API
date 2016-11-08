@@ -16,48 +16,6 @@ CCollisionMgr::~CCollisionMgr(void)
 {
 }
 
-void CCollisionMgr::TileCollision(list<CObj*>* pTemp, vector<TILE*>* Tile)
-{
-	RECT		rcCol;
-
-	for(list<CObj*>::iterator iter = pTemp->begin();
-			iter != pTemp->end(); ++iter )
-	{
-	
-		for(vector<TILE*>::iterator	iter2 = Tile->begin();
-			iter2 != Tile->end(); ++iter2)
-		{
-			
-
-			if((*iter2)->iDrawID == 1)
-			{
-				if(IntersectRect(&rcCol, &(*iter)->GetRect(), &(*iter2)->GetRect()))
-				{
-					
-
-					int iHeight = rcCol.bottom  - rcCol.top ;
-					int iWidth = rcCol.right  - rcCol.left ; 
-
-					if(iWidth > iHeight) // 상하충돌
-					{
-				
-							(*iter)->SetMinusY(iHeight);
-							((CPlayer*)(*iter))->SetJump(false);
-							((CPlayer*)(*iter))->SetGravity(true);
-							((CPlayer*)(*iter))->SetTime(0.f);
-							
-									
-					}
-					
-				
-				}
-		
-			}
-		}
-	}
-}
-
-
 void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 {
 	RECT		rcCol;
@@ -107,13 +65,14 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							
 							
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
-							if((*iter)->GetCount() == 5)
+							if((*iter)->GetCount() == 3)
 							{
 							(*iter)->Sethit(true);
+							::Safe_Delete(*iter);
+							iter = pSkill->erase(iter);
 							}
 							}
-								
-							}
+								}
 							
 							if((*iter)->GetstrKey() == "Skill2_LEFT" ||  (*iter)->GetstrKey() =="Skill2_RIGHT")						
 							{
@@ -204,7 +163,7 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
 							}
-							
+					
 							
 						}
 					
@@ -216,6 +175,7 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 						else
 						{
 							++iter2;
+
 						}
 					}
 		
@@ -227,12 +187,9 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 						{
 							if((*iter)->GetstrKey() == "Bolt_RIGHT" ||  (*iter)->GetstrKey() =="Bolt_LEFT")						
 							{
-																
-
 							(*iter)->SetCount((*iter2)->GetCount());
-
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
-							
+			
 							((CMonster*)(*iter2))->MonsterHit();
 							
 							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,303.f,201.f,20,"Bolt_Hit"));
@@ -245,9 +202,12 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 	
 								}
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
-							if((*iter)->GetCount()==5)
+							
+							if((*iter)->GetCount() == 3 )
 							{
 							(*iter)->Sethit(true);
+							
+							
 							}
 							}
 						
@@ -262,7 +222,7 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX, (*iter2)->GetInfo().fY,33.f,38.f,iThousand,"Damage"));
 								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX + 33, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
 								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX + 66.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
-								pSkill->push_bacdk(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX + 99.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
+								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX + 99.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
 	
 								}
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
@@ -287,6 +247,7 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 								}
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
+					
 							}
 
 							else if((*iter)->GetstrKey() == "Skill3Ball_RIGHT" )						
@@ -342,7 +303,6 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
 							}
-						
 						}
 							
 						if((*iter2)->GetInfo().fHP<=0)
@@ -352,13 +312,20 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 						}
 						else
 						{
+
 							++iter2;
 						}
 					}
 				}
 			else
+			{
+		
 				++iter2;
-		}	
+		
+			}
+		}
+		
+			
 	}
 }
 
@@ -370,17 +337,12 @@ void CCollisionMgr::MonsterCollision(CObj* pPlayer, list<CObj*>* pMonster)
 			iter != pMonster->end(); )
 
 		{
-
-		
 				if(IntersectRect(&rcCol, &(pPlayer)->GetRect(), &(*iter)->GetRect()))
 				{
 					int iHundred = (*iter)->GetInfo().iAttack / 100;
 					int	iTen =((*iter)->GetInfo().iAttack - (iHundred * 100) )/ 10;
 					int iOne = (*iter)->GetInfo().iAttack - ((iHundred*100) + (iTen*10));
-					
-				
-					
-	
+			
 					int iHeight = rcCol.bottom  - rcCol.top ;
 					int iWidth = rcCol.right  - rcCol.left ; 
 
@@ -421,13 +383,12 @@ void CCollisionMgr::TileCollision(CObj* pPlayer, vector<TILE*>* pTile)
 		for(vector<TILE*>::iterator	iter = pTile->begin();
 			iter != pTile->end(); ++iter)
 		{
+		
 			
 			if((*iter)->iDrawID == 1)
 			{
 				if(IntersectRect(&rcCol, &(pPlayer)->GetRect(), &(*iter)->GetRect()))
 				{
-					
-
 					int iHeight = rcCol.bottom  - rcCol.top ;
 					int iWidth = rcCol.right  - rcCol.left ; 
 
@@ -438,13 +399,98 @@ void CCollisionMgr::TileCollision(CObj* pPlayer, vector<TILE*>* pTile)
 							((CPlayer*)(pPlayer))->SetJump(false);
 							((CPlayer*)(pPlayer))->SetGravity(true);
 							((CPlayer*)(pPlayer))->SetTime(0.f);
-							
-									
+
+						
 					}
-					
-				
+			
 				}
+
+			}
+
+			if((*iter)->iDrawID == 2)
+			{
+				if(IntersectRect(&rcCol, &(pPlayer)->GetRect(), &(*iter)->GetRect()))
+				{
+					int iHeight = rcCol.bottom  - rcCol.top ;
+					int iWidth = rcCol.right  - rcCol.left ; 
+
+					if(iWidth > iHeight) // 상하충돌
+					{
+				
+							pPlayer->SetMinusY(iHeight);
+							((CPlayer*)(pPlayer))->SetJump(false);
+							((CPlayer*)(pPlayer))->SetGravity(true);
+							((CPlayer*)(pPlayer))->SetTime(0.f);
+					
+							if(((CPlayer*)pPlayer)->GetstrKey() == "Player_DOWN")
+							{
+								if(((CPlayer*)pPlayer)->GetJump() == true)
+									pPlayer->SetPlusY(10);
+							}
+					}
+			
+				}
+
 		
+			}
+
+			if((*iter)->iDrawID == 3 )
+			{
+				
+				if(IntersectRect(&rcCol, &(pPlayer)->GetRect(), &(*iter)->GetRect()))
+				{
+					int iHeight = rcCol.bottom  - rcCol.top ;
+					int iWidth = rcCol.right  - rcCol.left ; 
+					
+					if(iWidth > iHeight) // 상하충돌
+					{
+						
+						if(((CPlayer*)pPlayer)->GetstrKey() == "Player_UP")
+						{
+						if(GetAsyncKeyState(VK_UP))
+						{
+						((CPlayer*)(pPlayer))->SetGravity(false);
+						((CPlayer*)pPlayer)->SetState(ST_JUMP,2,2,80);
+					
+						pPlayer->SetMinusY(3);
+
+						//((CPlayer*)pPlayer)->RopeUp();
+						}
+						}
+						if(((CPlayer*)pPlayer)->GetstrKey() == "Player_DOWN")
+						{
+						if(GetAsyncKeyState(VK_DOWN))
+						{
+						((CPlayer*)pPlayer)->SetState(ST_JUMP,2,2,80);
+						pPlayer->SetPlusY(3);
+						}
+						}
+										
+					}
+					else // 좌우충돌
+					{
+						if(((CPlayer*)pPlayer)->GetstrKey() == "Player_UP")
+						{
+						if(GetAsyncKeyState(VK_UP))
+						{
+							((CPlayer*)(pPlayer))->SetGravity(false);
+							((CPlayer*)pPlayer)->SetState(ST_JUMP,2,2,80);
+							pPlayer->SetMinusY(3);					
+						}
+						}
+						
+						if(((CPlayer*)pPlayer)->GetstrKey() == "Player_DOWN")
+						{
+						if(GetAsyncKeyState(VK_DOWN))
+						{
+						((CPlayer*)pPlayer)->SetState(ST_JUMP,2,2,80);
+						pPlayer->SetPlusY(3);
+						}
+						}
+					}
+			
+				}
+				
 			}
 		}
 	

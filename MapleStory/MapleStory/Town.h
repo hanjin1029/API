@@ -11,11 +11,16 @@ private:
 	list<CObj*>		m_ObjList[OBJ_END];
 	vector<TILE*>	m_vecTile;
 	CObj*			m_pBack;
-	CObj*			m_pInven;
-	CObj*			m_pEquip;
+	
 	string			m_strMonsterName;
 	float			m_fCX;
 	float			m_fCY;
+	int				m_iX;
+	int				m_iY;
+	int				m_iScrollX;	
+	int				m_iScrollY;
+	int				m_iOffsetX;
+	int				m_iOffsetY;
 
 	DWORD			m_dwTime;
 

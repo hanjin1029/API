@@ -22,7 +22,6 @@ CTown::CTown(void)
 , m_fCY(600.f)
 {
 
-
 }
 
 CTown::~CTown(void)
@@ -47,7 +46,7 @@ void	CTown::Initialize(void)
 
 	m_BitMap["Player_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerRR.bmp");
 	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerL.bmp");
-	m_BitMap["Player_UP"]  = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerUP.bmp");
+	m_BitMap["Player_UP"]  = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerRR.bmp");
 	m_BitMap["Bolt_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill2BoltR.bmp");
 	m_BitMap["Bolt_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill2BoltL.bmp");
 	m_BitMap["Bolt_Hit"] = (new CBitBmp)->LoadBmp(L"../Texture/SKill2/Skill2BoltHit.bmp");
@@ -87,16 +86,15 @@ void	CTown::Initialize(void)
 	
 	
 
-	m_pBack = CObjFactory<CBack>::CreateObj(0,0,3090.f, 600.f,"town");
+	m_pBack = CObjFactory<CBack>::CreateObj(0,0,m_fCX, m_fCY,"town");
 
 	if(m_pPlayer == NULL)
 	{
 	m_pPlayer = CObjFactory<CPlayer>::CreateObj(WINCX/2.f, WINCY/2.f);
+
+	
 	}
 
-	m_pInven = CObjFactory<CInventory>::CreateObj();
-	m_pEquip = CObjFactory<CEquip>::CreateObj();
-	//m_ObjList[OBJ_PLAYER].push_back(CObjFactory<CPlayer>::CreateObj());
 
 	
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
@@ -105,9 +103,7 @@ void	CTown::Initialize(void)
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(50.f,WINCY-160));
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(3000.f,WINCY-160));
 	
-	
 
-	
 
 //	((CPlayer*)m_ObjList[OBJ_PLAYER].back())->SetSkill(&m_ObjList[OBJ_SKILL]);
 	((CPlayer*)m_pPlayer)->SetSkill(&m_ObjList[OBJ_SKILL]);
@@ -121,8 +117,13 @@ int CTown::Progress(void)
 {
 	m_pBack->Progress();
 	m_pPlayer->Progress();
-	m_pInven->Progress();
-	m_pEquip->Progress();
+
+	m_iX = (int)m_pPlayer->GetInfo().fX;
+	m_iY = (int)m_pPlayer->GetInfo().fY;
+	m_iScrollX = (int)(((CPlayer*)m_pPlayer)->GetScrollX());
+	m_iScrollY = (int)(((CPlayer*)m_pPlayer)->GetScrollY());
+	m_iOffsetX = (int)(((CPlayer*)m_pPlayer)->GetOffSetX());
+	m_iOffsetY = (int)(((CPlayer*)m_pPlayer)->GetOffSetY());
 
 	((CPlayer*)m_pPlayer)->SetScrollX(m_fCX);
 	((CPlayer*)m_pPlayer)->SetScrollY(m_fCY);
@@ -145,6 +146,28 @@ int CTown::Progress(void)
 		}
 	}
 
+	if(m_dwTime + 6000 < GetTickCount())
+	{
+		m_dwTime = GetTickCount();
+		
+		if(m_ObjList[OBJ_MONSTER].empty())
+		{
+		for (int i= 0; i<3; ++i)
+		{
+		CObj*	pMonster = CreateMonster(500.f+((i+1)*50),WINCY-150.f,100.f,100.f,1000.f,"SlimeL");
+		m_ObjList[OBJ_MONSTER].push_back(pMonster);
+		}
+		
+
+		for (int i= 0; i<3; ++i)
+		{
+		CObj*	pMonster = CreateMonster(1500.f+((i+1)*50),WINCY-150.f,70.f,70.f,800.f,"BlueL");
+		m_ObjList[OBJ_MONSTER].push_back(pMonster);
+		}
+		}
+		
+	}
+
 
 
 
@@ -156,10 +179,17 @@ int CTown::Progress(void)
 		return 0;
 		}
 	}
-	
-	//CCollisionMgr::TileCollision(&m_ObjList[OBJ_MONSTER], &m_vecTile);
-	CCollisionMgr::TileCollision(m_pPlayer, &m_vecTile);
 
+	if(m_pPlayer->GetInfo().fX == 2999)
+	{
+	((CPlayer*)m_pPlayer)->SetScrollX2(-2290.f);
+	((CPlayer*)m_pPlayer)->SetScrollY2(-20.f);
+	((CPlayer*)m_pPlayer)->SetOffsetX(2690.f);
+	((CPlayer*)m_pPlayer)->SetOffsetY(320.f);
+
+	}
+	
+	CCollisionMgr::TileCollision(m_pPlayer, &m_vecTile);
 
 	CCollisionMgr::SkillCollision(&m_ObjList[OBJ_SKILL], &m_ObjList[OBJ_MONSTER]);
 	
@@ -174,39 +204,31 @@ int CTown::Progress(void)
 void CTown::Render(HDC hdc)
 {
 	m_pBack->Render(m_BitMap["back"]->GetMemDC());
+
 	m_pPlayer->Render(m_BitMap["back"]->GetMemDC());
 	
-	if(GetKeyState('I') & 0x0001)
-	{
-		m_pInven->Render(m_BitMap["back"]->GetMemDC());
-	}
+	TCHAR szBuf[128] = L"";
+	wsprintf(szBuf, L"x ÁÂÇ¥ : %d , y ÁÂÇ¥ : %d", m_iX, m_iY);
+				TextOut(m_BitMap["back"]->GetMemDC(), 
+					50,100,
+					szBuf, lstrlen(szBuf));
+
+	wsprintf(szBuf, L"x ½ºÅ©·Ñ : %d , y ½ºÅ©·Ñ : %d", m_iScrollX, m_iScrollY);
+				TextOut(m_BitMap["back"]->GetMemDC(), 
+					50,150,
+					szBuf, lstrlen(szBuf));
+
+	wsprintf(szBuf, L"x ¿ÀÇÁ¼Â : %d , y ¿ÀÇÁ¼Â : %d", m_iOffsetX, m_iOffsetY);
+				TextOut(m_BitMap["back"]->GetMemDC(), 
+					50, 200,
+					szBuf, lstrlen(szBuf));
+
+			/*	wsprintf(szBuf, L"y ÁÂÇ¥ : %d", m_pPlayer->GetInfo().fY);
+				TextOut(m_BitMap["back"]->GetMemDC(), 
+					130,100,
+					szBuf, lstrlen(szBuf));*/
 
 
-
-	if(GetKeyState('E') & 0x0001)
-	{
-		m_pEquip->Render(m_BitMap["back"]->GetMemDC());
-	}
-	
-
-	if(m_dwTime + 6000 < GetTickCount())
-	{
-		m_dwTime = GetTickCount();
-	
-	
-
-		for (int i= 0; i<3; ++i)
-		{
-		CObj*	pMonster = CreateMonster(500.f+((i+1)*50),WINCY-150.f,100.f,100.f,1000.f,"SlimeL");
-		m_ObjList[OBJ_MONSTER].push_back(pMonster);
-		}
-	
-		for (int i= 0; i<3; ++i)
-		{
-		CObj*	pMonster = CreateMonster(1500.f+((i+1)*50),WINCY-150.f,70.f,70.f,800.f,"BlueL");
-		m_ObjList[OBJ_MONSTER].push_back(pMonster);
-		}
-	}
 
 	for(size_t i = 0; i < OBJ_END; ++i)
 	{

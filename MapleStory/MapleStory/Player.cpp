@@ -58,6 +58,10 @@ if(m_bJump)
 else if(m_bGravity)
 	{
 		m_tInfo.fY += 11.f;
+		if(!m_dwKey )
+		{
+		m_dwState = ST_STAND;
+		}
 	
 	}
 
@@ -85,14 +89,7 @@ else if(m_bGravity)
 	SetState(ST_JUMP, 1, 1, 60);
 	SetState(ST_ATTACK, 3, 3, 90);
 	SetState(ST_DOWN, 1, 6, 90);
-
-	
-	//SetState(ST_DAMAGE, 2, 3, 80);
-	//SetState(ST_DEATH, 4, 4, 80);
-
-	//ScrollX();
-	//ScrollY();
-
+	SetState(ST_UP,2,2,80);
 
 	return 0;
 }
@@ -103,11 +100,10 @@ void CPlayer::KeyCheck(void)
 	if(!m_dwKey && (m_dwState & ST_ATTACK))
 		m_dwState = ST_ATTACK;
 
-	if(m_dwKey && !(m_dwState & ST_ATTACK) && !(m_dwState&ST_UP))
+	if(m_dwKey && !(m_dwState & ST_ATTACK) && !(m_dwState & ST_UP))
 		m_dwState = ST_WALK;
 	
 	
-
 
 	if(m_dwState == ST_ATTACK)
 		return;
@@ -120,7 +116,7 @@ void CPlayer::KeyCheck(void)
 
 	if(m_dwKey & KEY_UP)
 	{
-		//m_tInfo.fY -= m_fSpeed;
+		m_dwState = ST_UP;
 	}
 	if(m_dwKey & KEY_DOWN)
 	{
@@ -301,6 +297,7 @@ void CPlayer::Direction(void)
 	if(m_dwKey & KEY_UP)
 	{
 		m_strKey = "Player_UP";
+		m_dwState = ST_UP;
 	}
 	/*
 	if(m_dwKey & KEY_DOWN)
@@ -512,7 +509,7 @@ void CPlayer::SetScrollX(float _fX)
 
 void CPlayer::SetScrollY(float _fY)
 {
-		if(m_tInfo.fY < m_ptOffset.y)
+	if(m_tInfo.fY < m_ptOffset.y)
 	{
 		if(m_ptScroll.y > 0 - m_fSpeed)
 		{
@@ -540,4 +537,54 @@ void CPlayer::SetScrollY(float _fY)
 		m_ptScroll.y -= (long)m_fSpeed;
 		m_ptOffset.y += (long)m_fSpeed;
 	}
+}
+
+float CPlayer::GetScrollX(void)
+{
+	return (float)m_ptScroll.x;
+}
+
+float CPlayer::GetScrollY(void)
+{
+	return (float)m_ptScroll.y;
+}
+
+float CPlayer::GetOffSetX(void)
+{
+	return (float)m_ptOffset.x;
+}
+
+float CPlayer::GetOffSetY(void)
+{
+	return (float)m_ptOffset.y;
+}
+
+bool CPlayer::GetJump(void)
+{
+	return m_bJump;
+}
+
+bool CPlayer::GetGravity(void)
+{
+	return m_bGravity;
+}
+
+void CPlayer::SetOffsetX(float _fX)
+{
+	m_ptOffset.x = (long)_fX;
+}
+
+void CPlayer::SetOffsetY(float _fY)
+{
+	m_ptOffset.y = (long)_fY;
+}
+
+void CPlayer::SetScrollX2(float _fX)
+{
+	m_ptScroll.x = (long)_fX;
+}
+
+void CPlayer::SetScrollY2(float _fY)
+{
+	m_ptScroll.y = (long)_fY;
 }

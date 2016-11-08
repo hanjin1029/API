@@ -49,7 +49,7 @@ void CField1::Initialize(void)
 	
 	m_BitMap["Player_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerRR.bmp");
 	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerL.bmp");
-	m_BitMap["Player_UP"]  = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerUP.bmp");
+	m_BitMap["Player_UP"]  = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerRR.bmp");
 	m_BitMap["Bolt_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill2BoltR.bmp");
 	m_BitMap["Bolt_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill2BoltL.bmp");
 	m_BitMap["Bolt_Hit"] = (new CBitBmp)->LoadBmp(L"../Texture/SKill2/Skill2BoltHit.bmp");
@@ -77,13 +77,18 @@ void CField1::Initialize(void)
 	m_BitMap["BlueR"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/BlueR.bmp");
 
 
-	m_pBack = CObjFactory<CBack>::CreateObj(0,0,1502.f,1364.f,"Field1");
+	m_pBack = CObjFactory<CBack>::CreateObj(0,0,m_fCX,m_fCY,"Field1");
 	
 	m_pPlayer->SetPos(43.f,m_fCY-300);
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(40.f,m_fCY-300));
 	
+
+	((CPlayer*)m_pPlayer)->SetScrollX2(0.f);
+	((CPlayer*)m_pPlayer)->SetScrollY2(-760.f);
+	((CPlayer*)m_pPlayer)->SetOffsetX(400.f);
+	((CPlayer*)m_pPlayer)->SetOffsetY(1060.f);
 
 
 	//CObjMgr::GetInst()->GetObj(OBJ_PLAYER);
@@ -100,9 +105,23 @@ int CField1::Progress(void)
 	((CPlayer*)m_pPlayer)->SetScrollX(m_fCX);
 	((CPlayer*)m_pPlayer)->SetScrollY(m_fCY);
 	
+	
+	if(GetAsyncKeyState(VK_RETURN))
+		CDevice::GetInstance()->SoundStop(2);
+
+	m_iX = (int)m_pPlayer->GetInfo().fX;
+	m_iY = (int)m_pPlayer->GetInfo().fY;
+	m_iScrollX = (int)(((CPlayer*)m_pPlayer)->GetScrollX());
+	m_iScrollY = (int)(((CPlayer*)m_pPlayer)->GetScrollY());
+	m_iOffsetX = (int)(((CPlayer*)m_pPlayer)->GetOffSetX());
+	m_iOffsetY = (int)(((CPlayer*)m_pPlayer)->GetOffSetY());
+
+
 	if(m_dwTime + 10000 < GetTickCount())
 	{
 		m_dwTime = GetTickCount();
+		if(m_ObjList[OBJ_MONSTER].empty())
+		{
 		for (int i= 0; i<3; ++i)
 		{
 		CObj*	pMonster = CreateMonster(300.f+((i+1)*50),m_fCY-270,100.f,100.f,1000.f,"SlimeL");
@@ -113,6 +132,7 @@ int CField1::Progress(void)
 		{
 		CObj*	pMonster = CreateMonster(700.f+((i+1)*30), m_fCY-270,70.f,70.f,800.f,"BlueL");
 		m_ObjList[OBJ_MONSTER].push_back(pMonster);
+		}
 		}
 	}
 
@@ -135,7 +155,7 @@ int CField1::Progress(void)
 		if(((CPlayer*)m_pPlayer)->GetstrKey() == "Player_UP")
 		{	
 		CSceneMgr::GetInst()->SetScene(SC_TOWN);	
-		((CPlayer*)m_pPlayer)->SetPos(2999.f, WINCY-m_fCY);
+		((CPlayer*)m_pPlayer)->SetPos(2999.f, 463.f);
 		return 0;
 		}
 	}
@@ -148,6 +168,9 @@ int CField1::Progress(void)
 
 void CField1::Render(HDC hdc)
 {
+	
+
+
 	m_pBack->Render(m_BitMap["back"]->GetMemDC());
 
 	m_pPlayer->Render(m_BitMap["back"]->GetMemDC());
@@ -161,6 +184,22 @@ void CField1::Render(HDC hdc)
 		}
 	}
 
+	TCHAR szBuf[128] = L"";
+	wsprintf(szBuf, L"x 좌표 : %d , y 좌표 : %d", m_iX, m_iY);
+				TextOut(m_BitMap["back"]->GetMemDC(), 
+					50,100,
+					szBuf, lstrlen(szBuf));
+
+	wsprintf(szBuf, L"x 스크롤 : %d , y 스크롤 : %d", m_iScrollX, m_iScrollY);
+				TextOut(m_BitMap["back"]->GetMemDC(), 
+					50,150,
+					szBuf, lstrlen(szBuf));
+
+	wsprintf(szBuf, L"x 오프셋 : %d , y 오프셋 : %d", m_iOffsetX, m_iOffsetY);
+				TextOut(m_BitMap["back"]->GetMemDC(), 
+					50, 200,
+					szBuf, lstrlen(szBuf));
+
 	
 
 BitBlt(hdc, 
@@ -172,7 +211,7 @@ BitBlt(hdc,
 
 void CField1::Release(void)
 {
-::Safe_Delete(m_pBack);
+	::Safe_Delete(m_pBack);
 
 
 	for(size_t i = 0; i < OBJ_END; ++i)
@@ -201,7 +240,7 @@ void CField1::LoadData(void)
 	DWORD		dwByte = 0;
 
 	
-	hFile = CreateFile(L"../Data/Map4.dat", 
+	hFile = CreateFile(L"../Data/Map6.dat", 
 		GENERIC_READ, 
 		0, 
 		NULL, 

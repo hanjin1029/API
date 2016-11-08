@@ -18,7 +18,12 @@ private:
 	DWORD			m_dwTime;
 	float			m_fCX;
 	float			m_fCY;
-
+	int				m_iX;
+	int				m_iY;
+	int				m_iScrollX;	
+	int				m_iScrollY;
+	int				m_iOffsetX;
+	int				m_iOffsetY;
 	
 
 public:
