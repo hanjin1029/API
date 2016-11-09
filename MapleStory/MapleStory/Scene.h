@@ -3,6 +3,7 @@
 #include "Include.h"
 
 class CObj;
+class CItem;
 class CBitBmp;
 class CScene
 {
@@ -11,7 +12,7 @@ protected:
 	static CObj*				m_pPlayer;
 	static CObj*				m_pInven;
 	static CObj*				m_pEquip;
-
+	static CObj*				m_pWeapon;
 
 public:
 	virtual void Initialize(void)	PURE;

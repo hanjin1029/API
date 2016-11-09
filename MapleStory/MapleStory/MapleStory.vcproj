@@ -484,6 +484,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="01. ItemFactory"
+				>
+				<File
+					RelativePath=".\ItemFactory.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="98. Headers"

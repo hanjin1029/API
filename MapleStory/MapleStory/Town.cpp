@@ -14,7 +14,9 @@
 #include "Inventory.h"
 #include "Equip.h"
 #include "Device.h"
-
+#include "Item.h"
+#include "Weapon.h"
+#include "ItemFactory.h"
 
 CTown::CTown(void)
 : m_dwTime(GetTickCount())
@@ -22,11 +24,7 @@ CTown::CTown(void)
 , m_fCY(600.f)
 , m_bClick(false)
 {
-	m_iStartX = 0;
-	m_iStartY = 0;
-	m_iEndX = 0;
-	m_iEndY = 0;
-
+	
 }
 
 CTown::~CTown(void)
@@ -78,6 +76,7 @@ void	CTown::Initialize(void)
 	m_BitMap["BlueL"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/BlueL.bmp");
 	m_BitMap["BlueR"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/BlueR.bmp");
 
+	m_BitMap["Arrow"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/ITEM_Weapon_ID1_0.bmp");
 	
 	//사운드 파일 추가
 	
@@ -92,16 +91,18 @@ void	CTown::Initialize(void)
 	
 
 	m_pBack = CObjFactory<CBack>::CreateObj(0,0,m_fCX, m_fCY,"town");
-
+	
 	if(m_pPlayer == NULL)
 	{
 	m_pPlayer = CObjFactory<CPlayer>::CreateObj(WINCX/2.f, WINCY/2.f);
 
-	
 	}
 
 	m_pInven = CObjFactory<CInventory>::CreateObj();
+
+	((CInventory*)m_pInven)->SetItem(&m_vecItem);
 	
+
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
 
@@ -122,6 +123,7 @@ int CTown::Progress(void)
 {
 	m_pBack->Progress();
 	m_pPlayer->Progress();
+	m_pInven->Progress();
 
 	m_iX = (int)m_pPlayer->GetInfo().fX;
 	m_iY = (int)m_pPlayer->GetInfo().fY;
@@ -212,9 +214,20 @@ void CTown::Render(HDC hdc)
 
 	m_pPlayer->Render(m_BitMap["back"]->GetMemDC());
 
+	
+
 	if((GetKeyState('I') & 0x0001))
 	{
 		m_pInven->Render(m_BitMap["back"]->GetMemDC());
+		
+		for(size_t i = 0; i < ITEND; ++i)
+		{
+			for(vector<CItem*>::iterator iter = m_vecItem.begin();
+				iter != m_vecItem.end(); ++ iter)
+			{
+			(*iter)->Render(m_BitMap["back"]->GetMemDC());
+			}
+		}
 	
 	}
 	

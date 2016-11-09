@@ -3,6 +3,8 @@
 
 class CCollisionMgr
 {
+private:
+	static DWORD	m_dwTime;
 
 
 public:

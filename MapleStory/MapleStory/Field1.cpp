@@ -80,6 +80,7 @@ void CField1::Initialize(void)
 	m_pBack = CObjFactory<CBack>::CreateObj(0,0,m_fCX,m_fCY,"Field1");
 	
 	m_pPlayer->SetPos(43.f,m_fCY-300);
+	((CPlayer*)m_pPlayer)->SetSkill(&m_ObjList[OBJ_SKILL]);
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(40.f,m_fCY-300));

@@ -7,19 +7,17 @@ class CInventory :
 {
 private:
 	
-	list<CItem*>		m_pItemsloat;
-	int					m_iPotionCnt[ITEND];
-	multimap<int, CItem*>		m_MapSloat;
-	int			m_iStartX;
-	int			m_iStartY;
-	int			m_iEndX;
-	int			m_iEndY;
+	vector<CItem*>*		m_pItemslot[ITEND];
+	CItem*		m_pItem;
+	bool		m_bClick;
 
 public:
-	void AddItem(CItem* pItem, ITTYPE eType);
-	void SetItem(CItem* pItem, int iMaxSize);
+	void AddItem(CItem* pItem);
+	void SetItem(vector<CItem*>* pItem);
+	 
 	void MapSort();
-	void MouseMove();
+	void Picking();
+	void Scroll(void);
 	
 public:
 	virtual void Initialize(void);

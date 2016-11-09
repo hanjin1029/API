@@ -75,7 +75,7 @@ typedef struct tagFrame
 
 typedef struct tagItem
 {
-	std::string strItName;
+	std::wstring strItName;
 	int		iOption;
 	int		iPrice;
 	ITTYPE	eType;
@@ -89,7 +89,7 @@ typedef struct tagItem
 	{
 
 	}
-	tagItem(std::string _strItName, int _iOption, int _iPrice, ITTYPE _eType)
+	tagItem(std::wstring _strItName, int _iOption, int _iPrice, ITTYPE _eType)
 		:strItName(_strItName), iOption(_iOption), iPrice(_iPrice), eType(_eType)
 	{
 

@@ -1,8 +1,7 @@
 #pragma once
 #include "scene.h"
 
-
-
+class CItem;
 class CObj;
 class CTown :
 	public CScene
@@ -11,7 +10,8 @@ private:
 	list<CObj*>		m_ObjList[OBJ_END];
 	vector<TILE*>	m_vecTile;
 	CObj*			m_pBack;
-	
+	vector<CItem*>  m_vecItem;
+	CItem*			m_pWeapon;
 	string			m_strMonsterName;
 	float			m_fCX;
 	float			m_fCY;

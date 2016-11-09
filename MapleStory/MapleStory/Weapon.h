@@ -6,11 +6,13 @@ class CWeapon :
 {
 public:
 	virtual void Initialize(void);
-	virtual void Render();
+	virtual int	 Progress(void);
+	virtual void Render(HDC hdc);
+	virtual void Release(void);
 
 public:
 	CWeapon(void);
 	CWeapon(const CWeapon& rWeapon);
-	CWeapon(string _strItName, int _iOption, int _iPrice, ITTYPE _eType, int _iItemType);
+	CWeapon(wstring _strItName, int _iOption, int _iPrice, ITTYPE _eType, int _iItemType);
 	~CWeapon(void);
 };
