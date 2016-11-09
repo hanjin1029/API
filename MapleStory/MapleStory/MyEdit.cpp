@@ -67,7 +67,7 @@ void	CMyEdit::Render(HDC	hdc)
 {
 	TCHAR szBuf[128] = L"";
 
-	BitBlt(m_vecBmp[0]->GetMemDC(), (int)0 + m_fScrollX , (int)0, 3090.f, 600.f,
+	BitBlt(m_vecBmp[0]->GetMemDC(), (int)(0 + m_fScrollX) , (int)0, (int)3090.f, (int)600.f,
 	m_vecBmp[2]->GetMemDC(), (int)0 , (int)0, SRCCOPY);
 
 	int iCountX = WINCX / TILECX +1;

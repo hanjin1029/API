@@ -2,7 +2,6 @@
 
 enum OBJID
 {
-
 	OBJ_SKILL,
 	OBJ_MONSTER,
 	OBJ_UI,
@@ -21,4 +20,12 @@ enum SCENEID
 	SC_FIELD2,
 	SC_BOSSFIELD,
 	SC_END
+};
+
+enum ITTYPE
+{
+	ITWEAPON,
+	ITARMOR,
+	ITPOTION,
+	ITEND
 };

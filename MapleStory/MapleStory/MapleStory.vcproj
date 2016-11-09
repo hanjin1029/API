@@ -595,6 +595,38 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="05. Item"
+			>
+			<File
+				RelativePath=".\Item.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Item.h"
+				>
+			</File>
+			<Filter
+				Name="01. Weapon"
+				>
+				<File
+					RelativePath=".\Weapon.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Weapon.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="02. Armor"
+				>
+			</Filter>
+			<Filter
+				Name="03. Potion"
+				>
+			</Filter>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>

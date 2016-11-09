@@ -9,6 +9,8 @@ class CScene
 protected:
 	map<string, CBitBmp*>		m_BitMap;
 	static CObj*				m_pPlayer;
+	static CObj*				m_pInven;
+	static CObj*				m_pEquip;
 
 
 public:

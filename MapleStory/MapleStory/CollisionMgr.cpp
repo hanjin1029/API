@@ -29,8 +29,8 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 		{		
 				if(IntersectRect(&rcCol, &(*iter)->GetRect( ), &(*iter2)->GetRect()))
 				{
-					int iHeight = rcCol.bottom  - rcCol.top ;
-					int iWidth = rcCol.right  - rcCol.left ; 
+					int iHeight = rcCol.bottom  - rcCol.top;
+					int iWidth = rcCol.right  - rcCol.left; 
 
 					int iThousand = (*iter)->GetInfo().iAttack / 1000;
 					int iHundred = ((*iter)->GetInfo().iAttack - (iThousand * 1000))/100 ;
@@ -46,11 +46,10 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 						
 							if((*iter)->GetstrKey() == "Bolt_RIGHT" ||  (*iter)->GetstrKey() =="Bolt_LEFT")						
 							{
-							(*iter)->SetCount((*iter2)->GetCount());
 						
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();
-							
+								(*iter)->SetCount((*iter2)->GetCount());
 
 								pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,303.f,201.f,(*iter)->GetInfo().iAttack,"Bolt_Hit"));
 								if(pSkill->back()->GetstrKey() == "Bolt_Hit")
@@ -68,8 +67,7 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							if((*iter)->GetCount() == 3)
 							{
 							(*iter)->Sethit(true);
-							::Safe_Delete(*iter);
-							iter = pSkill->erase(iter);
+						
 							}
 							}
 							
@@ -320,9 +318,9 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 			{
 		
 				++iter2;
-				::Safe_Delete(*iter);
 		
 			}
+
 		}
 		
 			

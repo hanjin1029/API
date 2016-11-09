@@ -4,6 +4,8 @@
 #include "Player.h"
 
 CObj*	CScene::m_pPlayer(NULL);
+CObj*	CScene::m_pInven(NULL);
+CObj*	CScene::m_pEquip(NULL);
 CScene::CScene(void)
 {
 	

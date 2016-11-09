@@ -20,7 +20,12 @@ CTown::CTown(void)
 : m_dwTime(GetTickCount())
 , m_fCX(3090.f)
 , m_fCY(600.f)
+, m_bClick(false)
 {
+	m_iStartX = 0;
+	m_iStartY = 0;
+	m_iEndX = 0;
+	m_iEndY = 0;
 
 }
 
@@ -38,7 +43,7 @@ void	CTown::Initialize(void)
 	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Info_56.bmp");
 	m_BitMap["Portal"] = (new CBitBmp)->LoadBmp(L"../Texture/Portal.bmp");
 	m_BitMap["DamageSkin1"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageSkin00.bmp");
-	m_BitMap["Inven"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Inven_0.bmp");
+	m_BitMap["Inven"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Inven_1.bmp");
 	m_BitMap["Equip"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Equip_0.bmp");
 
 	m_BitMap["back"] = (new CBitBmp)->LoadBmp(L"../Texture/BackBuffer.bmp");
@@ -95,7 +100,7 @@ void	CTown::Initialize(void)
 	
 	}
 
-
+	m_pInven = CObjFactory<CInventory>::CreateObj();
 	
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
@@ -206,6 +211,12 @@ void CTown::Render(HDC hdc)
 	m_pBack->Render(m_BitMap["back"]->GetMemDC());
 
 	m_pPlayer->Render(m_BitMap["back"]->GetMemDC());
+
+	if((GetKeyState('I') & 0x0001))
+	{
+		m_pInven->Render(m_BitMap["back"]->GetMemDC());
+	
+	}
 	
 	TCHAR szBuf[128] = L"";
 	wsprintf(szBuf, L"x ÁÂÇ¥ : %d , y ÁÂÇ¥ : %d", m_iX, m_iY);
@@ -227,8 +238,14 @@ void CTown::Render(HDC hdc)
 				TextOut(m_BitMap["back"]->GetMemDC(), 
 					130,100,
 					szBuf, lstrlen(szBuf));*/
-
-
+	
+	TCHAR szBuf2[128] = L"";
+	wsprintf(szBuf, L" ¸¶¿ì½º x : %d , ¸¶¿ì½º y : %d",GetMouse().x - m_iScrollX, GetMouse().y - m_iScrollX);
+				TextOut(m_BitMap["back"]->GetMemDC(), 
+					50, 250,
+					szBuf, lstrlen(szBuf));
+	
+	
 
 	for(size_t i = 0; i < OBJ_END; ++i)
 	{
@@ -320,5 +337,4 @@ CObj* CTown::CreateMonster(float _fX, float _fY, float _fCX, float _fCY, float _
 	return pMonster;
 
 }
-
 

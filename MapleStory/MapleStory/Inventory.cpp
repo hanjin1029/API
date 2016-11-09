@@ -19,6 +19,8 @@ void CInventory::Initialize(void)
 
 int CInventory::Progress(void)
 {
+
+
 	return 0;
 }
 

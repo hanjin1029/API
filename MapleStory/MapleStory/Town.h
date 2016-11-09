@@ -21,10 +21,9 @@ private:
 	int				m_iScrollY;
 	int				m_iOffsetX;
 	int				m_iOffsetY;
-
+	bool			m_bClick;
 	DWORD			m_dwTime;
-
-
+	
 public: 
 	void	LoadData(void);
 	CObj*	SetPlayer(void);

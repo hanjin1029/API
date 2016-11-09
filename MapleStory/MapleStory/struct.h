@@ -70,3 +70,29 @@ typedef struct tagFrame
 	}
 
 }FRAME;
+
+
+
+typedef struct tagItem
+{
+	std::string strItName;
+	int		iOption;
+	int		iPrice;
+	ITTYPE	eType;
+
+	float fX;
+	float fY;
+	float fCX;
+	float fCY;
+
+	tagItem()
+	{
+
+	}
+	tagItem(std::string _strItName, int _iOption, int _iPrice, ITTYPE _eType)
+		:strItName(_strItName), iOption(_iOption), iPrice(_iPrice), eType(_eType)
+	{
+
+	}
+
+}ITEM;
