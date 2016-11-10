@@ -240,7 +240,7 @@ void CPlayer::KeyCheck(void)
 	{
 		if(m_dwTime2 + 300 < GetTickCount())
 		{
-			int iCritical = rand() % 4000 + 1450;
+		int iCritical = rand() % 4000 + 1450;
 		if(m_strKey == "Player_LEFT")
 		{
 			m_strSkill = "Skill1Effect_LEFT";

@@ -7,16 +7,14 @@ class CInventory :
 {
 private:
 	
-	vector<CItem*>*		m_pItemslot[ITEND];
-	CItem*		m_pItem;
-	bool		m_bClick;
+	list<CObj*>		m_pItemslot;
 
+	bool			m_bClick;
+	
 public:
-	void AddItem(CItem* pItem);
-	void SetItem(vector<CItem*>* pItem);
-	 
-	void MapSort();
+	void AddItem();
 	void Picking();
+	CObj* CreateWeapon(float _fX, float _fY,float _fCX, float _fCY, string _strITname);
 	void Scroll(void);
 	
 public:

@@ -99,8 +99,6 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX + 33, (*iter2)->GetInfo().fY,33.f,38.f,iHundred,"Damage"));
 								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX + 66.f, (*iter2)->GetInfo().fY,33.f,38.f,iTen,"Damage"));
 								pSkill->push_back(CObjFactory<CDamageSkin>::CreateObj((*iter2)->GetInfo().fX + 99.f, (*iter2)->GetInfo().fY,33.f,38.f,iOne,"Damage"));
-	
-
 								}
 							((CMonster*)(*iter2))->SetState(ST_DAMAGE);
 							(*iter)->Sethit(true);
@@ -440,8 +438,6 @@ void CCollisionMgr::TileCollision(CObj* pPlayer, vector<TILE*>* pTile)
 					
 					if(iWidth > iHeight) // 상하충돌
 					{
-
-				
 						if(pPlayer->GetInfo().fX + pPlayer->GetInfo().fCX/2.f < (*iter)->fX + (*iter)->fCX/2.f 	
 							&& pPlayer->GetInfo().fX + pPlayer->GetInfo().fCX/2.f > (*iter)->fX - (*iter)->fCX/2.f 	)
 						{
@@ -490,8 +486,6 @@ void CCollisionMgr::TileCollision(CObj* pPlayer, vector<TILE*>* pTile)
 				}
 				else
 					++iter;
-				
 			}
-		}
-		
+		}		
 }

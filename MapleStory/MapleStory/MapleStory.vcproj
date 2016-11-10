@@ -384,6 +384,42 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="10. MyItem"
+				>
+				<File
+					RelativePath=".\MyItem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MyItem.h"
+					>
+				</File>
+				<Filter
+					Name="01. Weapon"
+					>
+					<File
+						RelativePath=".\MyWeapon.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\MyWeapon.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="02. Armor"
+					>
+					<File
+						RelativePath=".\MyArmor.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\MyArmor.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="03. Mgr"
@@ -474,26 +510,6 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="04. Design"
-			>
-			<Filter
-				Name="00. ObjFactory"
-				>
-				<File
-					RelativePath=".\ObjFactory.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="01. ItemFactory"
-				>
-				<File
-					RelativePath=".\ItemFactory.h"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
 			Name="98. Headers"
 			>
 			<File
@@ -524,6 +540,26 @@
 				RelativePath=".\value.h"
 				>
 			</File>
+			<Filter
+				Name="04. Design"
+				>
+				<Filter
+					Name="00. ObjFactory"
+					>
+					<File
+						RelativePath=".\ObjFactory.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="01. ItemFactory"
+					>
+					<File
+						RelativePath=".\ItemFactory.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="99. ETC"
@@ -601,38 +637,6 @@
 						/>
 					</FileConfiguration>
 				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="05. Item"
-			>
-			<File
-				RelativePath=".\Item.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Item.h"
-				>
-			</File>
-			<Filter
-				Name="01. Weapon"
-				>
-				<File
-					RelativePath=".\Weapon.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Weapon.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="02. Armor"
-				>
-			</Filter>
-			<Filter
-				Name="03. Potion"
-				>
 			</Filter>
 		</Filter>
 		<File

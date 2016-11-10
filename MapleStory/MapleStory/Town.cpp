@@ -14,9 +14,10 @@
 #include "Inventory.h"
 #include "Equip.h"
 #include "Device.h"
-#include "Item.h"
-#include "Weapon.h"
-#include "ItemFactory.h"
+#include "MyWeapon.h"
+#include "MyArmor.h"
+
+
 
 CTown::CTown(void)
 : m_dwTime(GetTickCount())
@@ -77,7 +78,7 @@ void	CTown::Initialize(void)
 	m_BitMap["BlueR"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/BlueR.bmp");
 
 	m_BitMap["Arrow"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/ITEM_Weapon_ID1_0.bmp");
-	
+	m_BitMap["Armor"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/ITEM_Wear_ID2_0.bmp");
 	//사운드 파일 추가
 	
 	CDevice::GetInstance()->LoadWave(L"../Sound/Town.wav");
@@ -98,10 +99,8 @@ void	CTown::Initialize(void)
 
 	}
 
-	m_pInven = CObjFactory<CInventory>::CreateObj();
+	m_pInven = CObjFactory<CInventory>::CreateObj(WINCX/1.3f,WINCY/1.3f);
 
-	((CInventory*)m_pInven)->SetItem(&m_vecItem);
-	
 
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
@@ -175,8 +174,17 @@ int CTown::Progress(void)
 		
 	}
 
+	//if(GetAsyncKeyState('1'))
+	//	{
+	//		m_ObjList[OBJ_WEAPON].push_back(CObjFactory<CMyWeapon>::CreateObj(200.f,200.f));
+	//	
+	//	}
 
 
+	//if(GetAsyncKeyState('2'))
+	//	{		m_ObjList[OBJ_ARMOR].push_back(CObjFactory<CMyArmor>::CreateObj(m_pInven->GetInfo().fX  , m_pInven->GetInfo().fY));
+	//	
+	//	}
 
 	if(m_pPlayer->GetInfo().fX >= 3000.f)  
 	{
@@ -220,15 +228,7 @@ void CTown::Render(HDC hdc)
 	{
 		m_pInven->Render(m_BitMap["back"]->GetMemDC());
 		
-		for(size_t i = 0; i < ITEND; ++i)
-		{
-			for(vector<CItem*>::iterator iter = m_vecItem.begin();
-				iter != m_vecItem.end(); ++ iter)
-			{
-			(*iter)->Render(m_BitMap["back"]->GetMemDC());
-			}
-		}
-	
+
 	}
 	
 	TCHAR szBuf[128] = L"";
@@ -266,6 +266,8 @@ void CTown::Render(HDC hdc)
 			iter !=	m_ObjList[i].end(); ++iter)
 		{
 			(*iter)->Render(m_BitMap["back"]->GetMemDC());
+		
+			
 		}
 	}
 
@@ -336,8 +338,6 @@ void CTown::LoadData(void)
 		m_vecTile.push_back(pTile);
 	}
 
-
-	
 
 	CloseHandle(hFile);
 }

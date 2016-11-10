@@ -1,12 +1,13 @@
 #include "StdAfx.h"
 #include "Inventory.h"
-#include "Weapon.h"
-#include "ItemFactory.h"
+#include "MyWeapon.h"
+#include "ObjFactory.h"
 
 
 CInventory::CInventory(void)
 {
 	m_bClick = false;
+	
 }
 
 CInventory::~CInventory(void)
@@ -16,12 +17,28 @@ CInventory::~CInventory(void)
 void CInventory::Initialize(void)
 {
 	m_tInfo = INFO(WINCX/1.3f, WINCY/2.f , 172.f, 355.f, 0, 0);
-	m_strKey = "Inven";
-	
+	m_strKey = "Inven";	
+
 }
 
 int CInventory::Progress(void)
 {
+		for(list<CObj*>::iterator iter = m_pItemslot.begin();
+			iter != m_pItemslot.end(); ++iter)
+		{
+			for(int i = 0; i<6; )
+			{
+				for( int j= 0; j<4; )
+				{
+				(*iter)->SetPos(m_tInfo.fX - 45 + (j*35) ,m_tInfo.fY - 95 + (i*35));				
+				
+				++j;			
+				}
+				++i;
+			}
+
+		}
+		
 	if(GetAsyncKeyState(VK_LBUTTON))
 	{
 		Picking();
@@ -32,12 +49,9 @@ int CInventory::Progress(void)
 		
 		m_bClick = false;
 	}
+
+	AddItem();
 	
-	if(GetAsyncKeyState('1'))
-	{	
-	m_pItem = CItemFactory<CWeapon>::CreateItem(L"Ȱ",m_tInfo.fX,m_tInfo.fY,10,100);
-	AddItem(m_pItem);
-	}
 
 	return 0;
 }
@@ -50,7 +64,12 @@ void CInventory::Render(HDC hdc)
 		int(m_tInfo.fCX), int(m_tInfo.fCY),
 		(*m_pBitMap)[m_strKey]->GetMemDC(),
 		0,0,SRCCOPY);
-
+	
+		for(list<CObj*>::iterator iter = m_pItemslot.begin();
+			iter != m_pItemslot.end(); ++iter)
+		{
+			(*iter)->Render(hdc);
+		}
 		
 
 
@@ -68,30 +87,23 @@ void CInventory::Picking(void)
 	
 }
 
-void CInventory::AddItem(CItem* pItem)
+void CInventory::AddItem()
 {
-	pItem = NULL;
-
-	switch(pItem->GetItem().eType)
+	if(GetAsyncKeyState('1'))
 	{
-	case ITWEAPON:
-		m_pItemslot[ITWEAPON]->push_back(pItem);
-
-		break;
-
-	case ITARMOR:
-		m_pItemslot[ITARMOR]->push_back(pItem);
-		break;
-
-
-	case ITPOTION:
-		break;
+		m_pItemslot.push_back(CreateWeapon(0,0,32.f,32.f,"Arrow"));
 
 	}
+	
 
 }
 
-void CInventory::SetItem(vector<CItem*>* pItem)
+
+
+CObj* CInventory::CreateWeapon(float _fX, float _fY,float _fCX, float _fCY, string strITName)
 {
-	m_pItemslot[ITEND] = pItem;
-}
+	CObj*	pWeapon = CObjFactory<CMyWeapon>::CreateObj(_fX, _fY,_fCX, _fCY ,strITName);
+
+	return pWeapon;
+
+}	

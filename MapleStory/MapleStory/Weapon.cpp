@@ -14,7 +14,7 @@ CWeapon::CWeapon(wstring _strItName, int _iOption, int _iPrice, ITTYPE _eType , 
 CWeapon::CWeapon( const CWeapon& rWeapon )
 {
 	m_tItem = rWeapon.m_tItem;
-	m_strKey = "Arrow";
+	
 }
 
 CWeapon::~CWeapon(void)
@@ -26,6 +26,7 @@ void CWeapon::Initialize(void)
 	
 	m_tItem.fCX = 32.f;
 	m_tItem.fCY = 32.f;
+	m_strKey = "Arrow";
 	m_tItem.eType = ITWEAPON;
 
 }

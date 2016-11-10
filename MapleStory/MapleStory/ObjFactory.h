@@ -19,13 +19,14 @@ public:
 	{
 		CObj* pObj = new T;
 
-
 		pObj->Initialize();
+		
 		pObj->SetPos(_fX, _fY);
-
+		
 		return pObj;
 	}
-		static CObj* CreateObj(float _fX, float _fY, float _fCX, float _fCY, string _strName)
+
+	static CObj* CreateObj(float _fX, float _fY, float _fCX, float _fCY, string _strName)
 	{
 		CObj* pObj = new T; 
 		
