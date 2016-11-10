@@ -2,6 +2,7 @@
 #include "Equip.h"
 
 CEquip::CEquip(void)
+: m_bClick(false)
 {
 }
 
@@ -17,6 +18,8 @@ void CEquip::Initialize(void)
 
 int CEquip::Progress(void)
 {
+	
+
 	return 0;
 }
 
@@ -33,5 +36,18 @@ void CEquip::Render(HDC hdc)
 
 void CEquip::Release(void)
 {
+
+}
+
+void CEquip::Picking(void)
+{
+	m_tInfo.fX = (float)GetMouse().x ;
+	m_tInfo.fY = (float)GetMouse().y ;
+	
+}
+
+void CEquip::AddItem(void)
+{
+
 
 }

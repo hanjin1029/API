@@ -45,7 +45,8 @@ void CField1::Initialize(void)
 	m_BitMap["Portal"] = (new CBitBmp)->LoadBmp(L"../Texture/Portal.bmp");
 	m_BitMap["DamageSkin1"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageSkin00.bmp");
 	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Info_56.bmp");
-	
+	m_BitMap["Inven"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Inven_1.bmp");
+	m_BitMap["Equip"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Equip_0.bmp");
 	
 	m_BitMap["Player_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerRR.bmp");
 	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerL.bmp");
@@ -76,6 +77,9 @@ void CField1::Initialize(void)
 	m_BitMap["BlueL"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/BlueL.bmp");
 	m_BitMap["BlueR"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/BlueR.bmp");
 
+	m_BitMap["Arrow"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/ITEM_Weapon_ID1_0.bmp");
+	m_BitMap["Armor"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/ITEM_Wear_ID2_0.bmp");
+	
 
 	m_pBack = CObjFactory<CBack>::CreateObj(0,0,m_fCX,m_fCY,"Field1");
 	
@@ -84,7 +88,7 @@ void CField1::Initialize(void)
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(40.f,m_fCY-300));
-	
+	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(1313.f, 105.f));
 
 	((CPlayer*)m_pPlayer)->SetScrollX2(0.f);
 	((CPlayer*)m_pPlayer)->SetScrollY2(-760.f);
@@ -102,6 +106,31 @@ int CField1::Progress(void)
 
 	m_pBack->Progress();
 	m_pPlayer->Progress();
+
+	if(PtInRect(&(m_pInven->GetRect()), GetMouse()))
+	{
+		if(GetAsyncKeyState(VK_LBUTTON))
+		{
+			m_pInven->SetPos((float)GetMouse().x, (float)GetMouse().y);
+		}
+		if(GetAsyncKeyState(VK_RBUTTON))
+		{
+			
+		}
+
+	}
+
+	if(PtInRect(&(m_pEquip->GetRect()), GetMouse()))
+	{
+		if(GetAsyncKeyState(VK_LBUTTON))
+		{
+			m_pEquip->SetPos((float)GetMouse().x, (float)GetMouse().y);
+		}
+
+	}
+	m_pInven->Progress();
+	m_pEquip->Progress();
+
 
 	((CPlayer*)m_pPlayer)->SetScrollX(m_fCX);
 	((CPlayer*)m_pPlayer)->SetScrollY(m_fCY);
@@ -161,6 +190,15 @@ int CField1::Progress(void)
 		}
 	}
 
+	if(m_pPlayer->GetInfo().fX >= 1313.f && m_pPlayer->GetInfo().fY <= 153.f)
+	{
+		if(((CPlayer*)m_pPlayer)->GetstrKey() == "Player_UP")
+		{	
+		CSceneMgr::GetInst()->SetScene(SC_FIELD2);
+			}
+
+	}
+
 	CCollisionMgr::TileCollision(m_pPlayer,&m_vecTile);
 	CCollisionMgr::SkillCollision(&m_ObjList[OBJ_SKILL], &m_ObjList[OBJ_MONSTER]);
 	
@@ -175,6 +213,22 @@ void CField1::Render(HDC hdc)
 	m_pBack->Render(m_BitMap["back"]->GetMemDC());
 
 	m_pPlayer->Render(m_BitMap["back"]->GetMemDC());
+
+	
+	if((GetKeyState('I') & 0x0001))
+	{
+		m_pInven->Render(m_BitMap["back"]->GetMemDC());
+		
+
+	}
+
+	if((GetKeyState('E') & 0x0001))
+	{
+		m_pEquip->Render(m_BitMap["back"]->GetMemDC());
+		
+
+	}
+	
 	
 	for(size_t i = 0; i < OBJ_END; ++i)
 	{

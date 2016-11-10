@@ -36,6 +36,7 @@ private:
 public:
 	void	SetState(DWORD dwState, int iLast, int iScene, DWORD dwTime);
 	void	SetJump(bool bJump);
+	void	SetRope(bool bRope);
 	void	SetGravity(bool bGravity);
 	void	SetTime(float fTime);
 	void    SetScrollX(float _fX);
@@ -51,8 +52,9 @@ public:
 	void	SetSkill(list <CObj*>* _pSkill);
 	CObj*	CreateSkill(float _fX, float _fY, float _fCX, float _fCY, int _iAttack , string _strSkillName);
 	string	GetSkillDir(void);
-
+	
 	bool	GetJump(void);
+	bool	GetRope(void);
 	bool	GetGravity(void);
 
 public:

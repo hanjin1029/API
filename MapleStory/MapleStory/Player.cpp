@@ -128,12 +128,15 @@ void CPlayer::KeyCheck(void)
 	}
 	if(m_dwKey & KEY_UP)
 	{
+	
 		m_dwState = ST_UP;
+
 		/*m_tInfo.fY -= m_fSpeed;*/
 		
 	}
 	if(m_dwKey & KEY_DOWN)
 	{
+		if(!m_bRope)
 		m_dwState = ST_DOWN;
 		/*m_tInfo.fY += m_fSpeed;*/
 	}
@@ -314,10 +317,19 @@ void CPlayer::Direction(void)
 		m_dwState = ST_UP;
 		m_bRope = true;
 	}
-	/*
-	if(m_dwKey & KEY_DOWN)
-		m_strKey = "Player_DOWN";
+	
+	/*if(m_dwKey & KEY_DOWN)
+	{
+		m_strKey = "Player_ROPEDOWN";
+		m_dwState = ST_DOWN;
+		if(m_bRope)
+		{
+			m_dwState = ST_UP;
+		}
+	}*/
 
+
+	/*
 	if((m_dwKey & KEY_LEFT) && (m_dwKey & KEY_DOWN))
 	{
 		m_strKey = "Player_LD";
@@ -359,72 +371,7 @@ void CPlayer::SetState(DWORD dwState, int iLast, int iScene, DWORD dwTime)
 	}
 	
 }
-//
-//void CPlayer::ScrollX(void)
-//{
-//	// 좌측 끝
-//	if(m_tInfo.fX < m_ptOffset.x)
-//	{
-//		if(m_ptScroll.x > 0 - m_fSpeed)
-//		{
-//			if(m_tInfo.fX < 0)
-//				m_tInfo.fX = 0.f;
-//
-//			return;
-//		}
-//
-//		m_ptScroll.x += (long)m_fSpeed;
-//		m_ptOffset.x -= (long)m_fSpeed;
-//	}
-//
-//	// 우측 끝
-//	if(m_tInfo.fX > m_ptOffset.x)
-//	{
-//		if(m_ptScroll.x < WINCX - 3090.f + m_fSpeed)
-//		{
-//			if(m_tInfo.fX > 3090.f)
-//				m_tInfo.fX = 3090.f;
-//
-//			return;
-//		}
-//
-//		m_ptScroll.x -= (long)m_fSpeed;
-//		m_ptOffset.x += (long)m_fSpeed;
-//	}
-//}
-//
-//void CPlayer::ScrollY(void)
-//{
-//	// 상단 끝
-//	if(m_tInfo.fY < m_ptOffset.y)
-//	{
-//		if(m_ptScroll.y > 0 - m_fSpeed)
-//		{
-//			if(m_tInfo.fY < 0)
-//				m_tInfo.fY = 0.f;
-//
-//			return;
-//		}
-//
-//		m_ptScroll.y += (long)m_fSpeed;
-//		m_ptOffset.y -= (long)m_fSpeed;
-//	}
-//
-//	// 하단 끝
-//	if(m_tInfo.fY > m_ptOffset.y)
-//	{
-//		if(m_ptScroll.y < WINCY - 600.f + m_fSpeed)
-//		{
-//			if(m_tInfo.fY > 600.f)
-//				m_tInfo.fY = 600.f;
-//
-//			return;
-//		}
-//
-//		m_ptScroll.y -= (long)m_fSpeed;
-//		m_ptOffset.y += (long)m_fSpeed;
-//	}
-//}
+
 
 void CPlayer::Render(HDC hdc)
 {
@@ -603,3 +550,13 @@ void CPlayer::SetScrollY2(float _fY)
 {
 	m_ptScroll.y = (long)_fY;
 }
+
+void CPlayer::SetRope(bool bRope)
+{
+	m_bRope = bRope;
+}
+
+bool CPlayer::GetRope(void)
+{
+	return m_bRope;
+}	

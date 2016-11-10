@@ -12,8 +12,6 @@ private:
 	list<CObj*>		m_ObjList[OBJ_END];
 	vector<TILE*>	m_vecTile;
 	CObj*			m_pBack;
-	CObj*			m_pInven;
-	CObj*			m_pEquip;
 	list<CObj*>		m_pMonster;
 	DWORD			m_dwTime;
 	float			m_fCX;

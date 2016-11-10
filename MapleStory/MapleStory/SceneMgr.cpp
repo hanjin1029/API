@@ -5,6 +5,7 @@
 #include "MyEdit.h"
 #include "Town.h"
 #include "Field1.h"
+#include "Field2.h"
 
 CSceneMgr* CSceneMgr::m_pInst = NULL;
 
@@ -47,6 +48,7 @@ void CSceneMgr::SetScene(SCENEID eScene)
 		break;
 
 	case SC_FIELD2:
+		m_pScene = new CField2;
 		break;
 
 	case SC_BOSSFIELD:

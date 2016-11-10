@@ -45,7 +45,7 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 						
 							if((*iter)->GetstrKey() == "Bolt_RIGHT" ||  (*iter)->GetstrKey() =="Bolt_LEFT")						
 							{
-						
+							
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
 							((CMonster*)(*iter2))->MonsterHit();
 							(*iter)->SetCount((*iter2)->GetCount());
@@ -415,13 +415,18 @@ void CCollisionMgr::TileCollision(CObj* pPlayer, vector<TILE*>* pTile)
 							((CPlayer*)(pPlayer))->SetJump(false);
 							((CPlayer*)(pPlayer))->SetGravity(true);
 							((CPlayer*)(pPlayer))->SetTime(0.f);
-					
+					/*
 							if(((CPlayer*)pPlayer)->GetstrKey() == "Player_DOWN")
 							{
 								if(((CPlayer*)pPlayer)->GetJump() == true)
+								{								
 									pPlayer->SetPlusY(10);
-							}
+									((CPlayer*)(pPlayer))->SetGravity(false);
+								}
+
+							}*/
 					}
+				
 			
 				}
 
@@ -433,52 +438,56 @@ void CCollisionMgr::TileCollision(CObj* pPlayer, vector<TILE*>* pTile)
 				
 				if(IntersectRect(&rcCol, &(pPlayer)->GetRect(), &(*iter)->GetRect()))
 				{
+					
 					int iHeight = rcCol.bottom  - rcCol.top ;
 					int iWidth = rcCol.right  - rcCol.left ; 
 					
 					if(iWidth > iHeight) // 상하충돌
 					{
+
 						if(pPlayer->GetInfo().fX + pPlayer->GetInfo().fCX/2.f < (*iter)->fX + (*iter)->fCX/2.f 	
 							&& pPlayer->GetInfo().fX + pPlayer->GetInfo().fCX/2.f > (*iter)->fX - (*iter)->fCX/2.f 	)
 						{
+						if(((CPlayer*)pPlayer)->GetRope() == true)
 						if(GetAsyncKeyState(VK_UP) && pPlayer->GetInfo().fX <= (*iter)->fX +10 && pPlayer->GetInfo().fX >= (*iter)->fX -10)
 						{
-						(
-						(CPlayer*)(pPlayer))->SetGravity(false);
+						((CPlayer*)(pPlayer))->SetGravity(false);
 						((CPlayer*)pPlayer)->SetState(ST_UP,2,2,80);
-					
+										
 						pPlayer->SetMinusY(5);		
-
-					
-
-						
 						}
-						
+						}
 						else if(GetAsyncKeyState(VK_DOWN))
 						{
-						((CPlayer*)pPlayer)->SetState(ST_UP,2,2,80);
-						pPlayer->SetPlusY(2);
-						}
+							if(((CPlayer*)pPlayer)->GetRope() == true)
+							{
+							((CPlayer*)pPlayer)->SetState(ST_UP,2,2,80);
+							pPlayer->SetPlusY(2);
+							}
+							
 						}
 										
 					}
 					else // 좌우충돌
 					{
-						if(((CPlayer*)pPlayer)->GetstrKey() == "Player_UP")
+						if(((CPlayer*)pPlayer)->GetRope() == true)
 						{
-						if(GetAsyncKeyState(VK_UP) && pPlayer->GetInfo().fX <= (*iter)->fX +10 && pPlayer->GetInfo().fX >= (*iter)->fX -10)
+							if(GetAsyncKeyState(VK_UP) && pPlayer->GetInfo().fX <= (*iter)->fX +10 && pPlayer->GetInfo().fX >= (*iter)->fX -10)
 						{
+
 							((CPlayer*)(pPlayer))->SetGravity(false);
 							((CPlayer*)pPlayer)->SetState(ST_UP,2,2,80);
-								pPlayer->SetMinusY(5);
-
+							pPlayer->SetMinusY(5);
 						
 						}
 						
 						else if(GetAsyncKeyState(VK_DOWN))
 						{
-						((CPlayer*)pPlayer)->SetState(ST_JUMP,2,2,80);
-						pPlayer->SetPlusY(2);
+							if(((CPlayer*)pPlayer)->GetRope() == true)
+							{
+							((CPlayer*)pPlayer)->SetState(ST_UP,2,2,80);
+							pPlayer->SetPlusY(2);
+							}
 						}
 						}
 					}
@@ -489,3 +498,6 @@ void CCollisionMgr::TileCollision(CObj* pPlayer, vector<TILE*>* pTile)
 			}
 		}		
 }
+
+
+

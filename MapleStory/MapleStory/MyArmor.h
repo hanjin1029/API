@@ -4,9 +4,6 @@
 class CMyArmor :
 	public CMyItem
 {
-private:
-	INFO	m_tInfo;
-
 public:
 	virtual void Initialize(void) ;
 	virtual int Progress(void) ;

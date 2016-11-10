@@ -1,20 +1,27 @@
 #pragma once
 #include "obj.h"
 
-class CItem;
+
 class CInventory :
 	public CObj
 {
 private:
 	
-	list<CObj*>		m_pItemslot;
-
+	vector<CObj*>		m_pItemslot;
 	bool			m_bClick;
-	
+	int				m_iStartX;
+	int				m_iStartY;
+	int				m_iEndX;
+	int				m_iEndY;
+	POINT			m_pt;
+	RECT			m_rc;
+	bool			m_bDrag;
+
 public:
 	void AddItem();
 	void Picking();
 	CObj* CreateWeapon(float _fX, float _fY,float _fCX, float _fCY, string _strITname);
+	CObj* CreateArmor(float _fX, float _fY,float _fCX, float _fCY, string _strITname);
 	void Scroll(void);
 	
 public:

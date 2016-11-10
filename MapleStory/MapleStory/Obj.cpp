@@ -48,6 +48,7 @@ void CObj::SetPos(float _fX, float _fY)
 	m_tInfo.fY  = _fY ;
 }
 
+
 void CObj::SetSize(float _fCX, float _fCY)
 {
 	m_tInfo.fCX = _fCX;

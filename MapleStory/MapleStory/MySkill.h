@@ -14,6 +14,7 @@ private:
 
 public:
 	DWORD	GetTime(void);
+	
 
 public:
 	virtual void Initialize(void);

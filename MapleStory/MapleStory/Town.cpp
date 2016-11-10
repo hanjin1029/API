@@ -51,6 +51,7 @@ void	CTown::Initialize(void)
 	m_BitMap["Player_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerRR.bmp");
 	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerL.bmp");
 	m_BitMap["Player_UP"]  = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerRR.bmp");
+	m_BitMap["Player_ROPEDOWN"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/PlayerRR.bmp");
 	m_BitMap["Bolt_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill2BoltR.bmp");
 	m_BitMap["Bolt_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill2/Skill2BoltL.bmp");
 	m_BitMap["Bolt_Hit"] = (new CBitBmp)->LoadBmp(L"../Texture/SKill2/Skill2BoltHit.bmp");
@@ -98,9 +99,12 @@ void	CTown::Initialize(void)
 	m_pPlayer = CObjFactory<CPlayer>::CreateObj(WINCX/2.f, WINCY/2.f);
 
 	}
-
+	
+	if(m_pInven == NULL)
 	m_pInven = CObjFactory<CInventory>::CreateObj(WINCX/1.3f,WINCY/1.3f);
-
+	if(m_pEquip == NULL)
+	m_pEquip = CObjFactory<CEquip>::CreateObj(WINCX/1.5f, WINCY/1.5f);
+	
 
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
@@ -122,7 +126,31 @@ int CTown::Progress(void)
 {
 	m_pBack->Progress();
 	m_pPlayer->Progress();
+	
+
+	if(PtInRect(&(m_pInven->GetRect()), GetMouse()))
+	{
+		if(GetAsyncKeyState(VK_LBUTTON))
+		{
+			m_pInven->SetPos((float)GetMouse().x, (float)GetMouse().y);
+		}
+		if(GetAsyncKeyState(VK_RBUTTON))
+		{
+			
+		}
+
+	}
+
+	if(PtInRect(&(m_pEquip->GetRect()), GetMouse()))
+	{
+		if(GetAsyncKeyState(VK_LBUTTON))
+		{
+			m_pEquip->SetPos((float)GetMouse().x, (float)GetMouse().y);
+		}
+
+	}
 	m_pInven->Progress();
+	m_pEquip->Progress();
 
 	m_iX = (int)m_pPlayer->GetInfo().fX;
 	m_iY = (int)m_pPlayer->GetInfo().fY;
@@ -174,17 +202,7 @@ int CTown::Progress(void)
 		
 	}
 
-	//if(GetAsyncKeyState('1'))
-	//	{
-	//		m_ObjList[OBJ_WEAPON].push_back(CObjFactory<CMyWeapon>::CreateObj(200.f,200.f));
-	//	
-	//	}
 
-
-	//if(GetAsyncKeyState('2'))
-	//	{		m_ObjList[OBJ_ARMOR].push_back(CObjFactory<CMyArmor>::CreateObj(m_pInven->GetInfo().fX  , m_pInven->GetInfo().fY));
-	//	
-	//	}
 
 	if(m_pPlayer->GetInfo().fX >= 3000.f)  
 	{
@@ -230,6 +248,14 @@ void CTown::Render(HDC hdc)
 		
 
 	}
+
+	if((GetKeyState('E') & 0x0001))
+	{
+		m_pEquip->Render(m_BitMap["back"]->GetMemDC());
+		
+
+	}
+	
 	
 	TCHAR szBuf[128] = L"";
 	wsprintf(szBuf, L"x ÁÂÇ¥ : %d , y ÁÂÇ¥ : %d", m_iX, m_iY);
