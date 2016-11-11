@@ -52,7 +52,7 @@ public:
 	void	SetSkill(list <CObj*>* _pSkill);
 	CObj*	CreateSkill(float _fX, float _fY, float _fCX, float _fCY, int _iAttack , string _strSkillName);
 	string	GetSkillDir(void);
-	
+	DWORD	GetState(void);
 	bool	GetJump(void);
 	bool	GetRope(void);
 	bool	GetGravity(void);

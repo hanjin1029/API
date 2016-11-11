@@ -24,6 +24,7 @@ CField2::CField2(void)
 
 CField2::~CField2(void)
 {
+	Release();
 }
 
 
@@ -33,7 +34,7 @@ void CField2::Initialize(void)
 
 	CDevice::GetInstance()->LoadWave(L"../Sound/Boss.wav");
 	CDevice::GetInstance()->SoundStop(2);
-	CDevice::GetInstance()->SoundPlay(3,1);
+	CDevice::GetInstance()->SoundPlay(8,1);
 
 
 	m_BitMap["back"] = (new CBitBmp)->LoadBmp(L"../Texture/BackBuffer.bmp");
@@ -69,13 +70,16 @@ void CField2::Initialize(void)
 	
 	m_BitMap["Field2"] = (new CBitBmp)->LoadBmp(L"../Texture/Field2.bmp");
 
+	m_BitMap["BossL"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/SaverTooth_L.bmp");
+	m_BitMap["BossR"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/SaverTooth_R.bmp");
+
 	m_BitMap["Arrow"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/ITEM_Weapon_ID1_0.bmp");
 	m_BitMap["Armor"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/ITEM_Wear_ID2_0.bmp");
 
 	m_pBack = CObjFactory<CBack>::CreateObj(0,0,m_fCX,m_fCY,"Field2");
 	
 
-	
+	m_pPlayer->SetPos(320.f, 514.f);
 	((CPlayer*)m_pPlayer)->SetSkill(&m_ObjList[OBJ_SKILL]);
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
@@ -83,10 +87,13 @@ void CField2::Initialize(void)
 	
 
 	((CPlayer*)m_pPlayer)->SetScrollX2(0.f);
-	((CPlayer*)m_pPlayer)->SetScrollY2(-760.f);
+	((CPlayer*)m_pPlayer)->SetScrollY2(-120.f);
 	((CPlayer*)m_pPlayer)->SetOffsetX(400.f);
-	((CPlayer*)m_pPlayer)->SetOffsetY(1060.f);
+	((CPlayer*)m_pPlayer)->SetOffsetY(520.f);
 
+
+	CObj*	pMonster = CreateMonster(800.f,414.f,553.f, 457.f, 60000.f,"BossL");
+	m_ObjList[OBJ_MONSTER].push_back(pMonster);
 
 	//CObjMgr::GetInst()->GetObj(OBJ_PLAYER);
 	CObj::SetBitMap(&m_BitMap);
@@ -98,27 +105,27 @@ int CField2::Progress(void)
 	m_pBack->Progress();
 	m_pPlayer->Progress();
 
-	if(PtInRect(&(m_pInven->GetRect()), GetMouse()))
-	{
-		if(GetAsyncKeyState(VK_LBUTTON))
-		{
-			m_pInven->SetPos((float)GetMouse().x, (float)GetMouse().y);
-		}
-		if(GetAsyncKeyState(VK_RBUTTON))
-		{
-			
-		}
+	//if(PtInRect(&(m_pInven->GetRect()), GetMouse()))
+	//{
+	//	if(GetAsyncKeyState(VK_LBUTTON))
+	//	{
+	//		m_pInven->SetPos((float)GetMouse().x, (float)GetMouse().y);
+	//	}
+	//	if(GetAsyncKeyState(VK_RBUTTON))
+	//	{
+	//		
+	//	}
 
-	}
+	//}
 
-	if(PtInRect(&(m_pEquip->GetRect()), GetMouse()))
-	{
-		if(GetAsyncKeyState(VK_LBUTTON))
-		{
-			m_pEquip->SetPos((float)GetMouse().x, (float)GetMouse().y);
-		}
+	//if(PtInRect(&(m_pEquip->GetRect()), GetMouse()))
+	//{
+	//	if(GetAsyncKeyState(VK_LBUTTON))
+	//	{
+	//		m_pEquip->SetPos((float)GetMouse().x, (float)GetMouse().y);
+	//	}
 
-	}
+//	}
 	m_pInven->Progress();
 	m_pEquip->Progress();
 
@@ -126,7 +133,7 @@ int CField2::Progress(void)
 	((CPlayer*)m_pPlayer)->SetScrollY(m_fCY);
 	
 	if(GetAsyncKeyState(VK_RETURN))
-		CDevice::GetInstance()->SoundStop(2);
+		CDevice::GetInstance()->SoundStop(8);
 
 	m_iX = (int)m_pPlayer->GetInfo().fX;
 	m_iY = (int)m_pPlayer->GetInfo().fY;
@@ -145,9 +152,14 @@ int CField2::Progress(void)
 		
 			CRenderMgr::GetInst()->AddObject(*iter);
 
-		
 			
 		}
+	}
+
+	if(m_ObjList[OBJ_MONSTER].empty())
+	{
+		//Release();
+		DestroyWindow(g_hWnd);
 	}
 			CCollisionMgr::TileCollision(m_pPlayer,&m_vecTile);
 			CCollisionMgr::SkillCollision(&m_ObjList[OBJ_SKILL], &m_ObjList[OBJ_MONSTER]);
@@ -187,21 +199,7 @@ void CField2::Render(HDC hdc)
 		}
 
 	}
-	TCHAR szBuf[128] = L"";
-	wsprintf(szBuf, L"x 좌표 : %d , y 좌표 : %d", m_iX, m_iY);
-				TextOut(m_BitMap["back"]->GetMemDC(), 
-					50,100,
-					szBuf, lstrlen(szBuf));
 
-	wsprintf(szBuf, L"x 스크롤 : %d , y 스크롤 : %d", m_iScrollX, m_iScrollY);
-				TextOut(m_BitMap["back"]->GetMemDC(), 
-					50,150,
-					szBuf, lstrlen(szBuf));
-
-	wsprintf(szBuf, L"x 오프셋 : %d , y 오프셋 : %d", m_iOffsetX, m_iOffsetY);
-				TextOut(m_BitMap["back"]->GetMemDC(), 
-					50, 200,
-					szBuf, lstrlen(szBuf));
 
 				
 BitBlt(hdc, 
@@ -215,6 +213,9 @@ void CField2::Release(void)
 {
 
 		::Safe_Delete(m_pBack);
+		::Safe_Delete(m_pPlayer);
+		::Safe_Delete(m_pInven);
+		::Safe_Delete(m_pEquip);
 
 
 	for(size_t i = 0; i < OBJ_END; ++i)

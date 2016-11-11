@@ -6,7 +6,7 @@
 
 
 CInventory::CInventory(void)
-
+: m_dwTime(GetTickCount())
 {
 	m_bClick = false;
 	m_bDrag  = false;
@@ -87,7 +87,8 @@ void CInventory::Release(void)
 			iter != m_pItemslot.end(); ++iter)
 		{
 			::Safe_Delete(*iter);
-			iter = m_pItemslot.erase(iter);
+			
+
 		}
 		
 	
@@ -103,16 +104,21 @@ void CInventory::Picking(void)
 
 void CInventory::AddItem()
 {
+	if(m_dwTime + 1000 < GetTickCount())
+	{
 	if(GetAsyncKeyState('1') & 0x8000)
 	{
 		m_pItemslot.push_back(CreateWeapon(0,0,32.f,32.f,"Arrow"));
-		
+		m_dwTime = GetTickCount();
 	}
+	
 
 	if(GetAsyncKeyState('2')& 0x8000)
 	{
 		m_pItemslot.push_back(CreateArmor(0,0,32.f,32.f,"Armor"));
-		
+		m_dwTime = GetTickCount();
+	}
+	
 	}
 
 

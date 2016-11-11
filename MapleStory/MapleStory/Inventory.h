@@ -6,7 +6,7 @@ class CInventory :
 	public CObj
 {
 private:
-	
+	DWORD			m_dwTime;
 	vector<CObj*>		m_pItemslot;
 	bool			m_bClick;
 	int				m_iStartX;

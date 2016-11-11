@@ -50,7 +50,15 @@ int CMonster::Progress(void)
 			m_tFrame.iStart = 0;
 		}
 
-	
+	if(m_dwTime3 + 3000 < GetTickCount() )
+		{
+		if(m_strKey == "BossL" || m_strKey == "BossR")	
+		{
+			MonsterAttack();
+			m_dwTime3 = GetTickCount();
+		}
+			
+		}
 	
 
 	return 0;
@@ -106,7 +114,30 @@ void CMonster::MonsterMove()
 			m_strKey = "BlueL";
 			m_tFrame = FRAME(0,3,3,80);	
 		}
-					
+
+		if(m_strKey == "DEUL")
+		{	
+			m_strKey = "DEUR";
+			m_tFrame = FRAME(0,6,0,80);
+
+		}
+
+		else if(m_strKey == "DEUR")
+		{
+			m_strKey = "DEUL";
+			m_tFrame = FRAME(0,6,0,80);
+		}
+
+		if(m_strKey == "BossL")
+		{
+			m_strKey = "BossR";
+			m_tFrame = FRAME(0,7,2,80);
+		}
+		else if(m_strKey == "BossR")
+		{
+			m_strKey = "BossL";
+			 m_tFrame = FRAME(0,7,2,80);
+		}
 	}
 
 }
@@ -146,6 +177,41 @@ void CMonster::MonsterHit(void)
 
 		}
 		
+		if(m_strKey == "DeuL")
+		{
+			
+			m_tFrame = FRAME(0,6,4,1000);
+			m_dwState = ST_DAMAGE;
+		
+			return;
+		}
+		else if(m_strKey == "DeuR")
+		{
+			m_tFrame = FRAME(0,6,4,1000);
+			m_dwState = ST_DAMAGE;
+		
+			return;
+
+		}
+		
+			
+		if(m_strKey == "BossL")
+		{
+			
+			m_tFrame = FRAME(0,6,0,1000);
+			m_dwState = ST_DAMAGE;
+		
+			return;
+		}
+		else if(m_strKey == "BossR")
+		{
+			m_tFrame = FRAME(0,6,9, 1000);
+			m_dwState = ST_DAMAGE;
+		
+			return;
+
+		}
+		
 		
 	
 	
@@ -156,3 +222,26 @@ void CMonster::SetState(DWORD	ST)
 	m_dwState = ST;
 }
 
+void CMonster::MonsterAttack()
+{
+	
+	int iPattern = 0;
+	iPattern = rand()%2 +1;
+
+	switch(iPattern)
+	{
+	case 1:
+		m_tFrame = FRAME(0,8,4,100);
+		break;
+	case 2:
+		m_tFrame = FRAME(0,9,3,100);
+		break;
+	/*case 3:
+		m_tFrame = FRAME(0,7,2,100);
+	case 4:
+		m_tFrame = FRAME(0,7,2,100);*/
+
+	
+}
+	
+}

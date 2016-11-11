@@ -21,8 +21,6 @@ CScene::~CScene(void)
 	}
 	m_BitMap.clear();
 
-	//::Safe_Delete(m_pInven);
-	//::Safe_Delete(m_pEquip);
 }
 
 

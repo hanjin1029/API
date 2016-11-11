@@ -5,6 +5,7 @@
 #include "Inventory.h"
 #include "ObjFactory.h"
 #include "DamageSkin.h"
+#include "Device.h"
 
 
 CPlayer::CPlayer(void)
@@ -39,6 +40,10 @@ void CPlayer::Initialize(void)
 
 	m_tFrame = FRAME(0, 4, 0, 80);
 
+	CDevice::GetInstance()->LoadWave(L"../Sound/skill1.wav");
+	CDevice::GetInstance()->LoadWave(L"../Sound/skill2.wav");
+	CDevice::GetInstance()->LoadWave(L"../Sound/skill3.wav");
+	CDevice::GetInstance()->LoadWave(L"../Sound/skill4.wav");
 	
 
 }
@@ -153,15 +158,15 @@ void CPlayer::KeyCheck(void)
 	{
 		if(m_dwTime2 + 300 <GetTickCount())
 		{
+		CDevice::GetInstance()->SoundPlay(4, 0);
 		int iCritical = rand() % 8000 + 1800;
 		if(m_strKey == "Player_LEFT")
 		{
 			
 			m_strSkill = "Bolt_LEFT";
 			
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 730.f, 427.f, iCritical, m_strSkill));
-	
-			
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY, 730.f, 427.f, iCritical, m_strSkill));		
+		
 		}
 		else
 		{	
@@ -177,6 +182,7 @@ void CPlayer::KeyCheck(void)
 
 	if(m_dwKey & KEY_S)
 	{
+		CDevice::GetInstance()->SoundPlay(5, 0);
 		if(m_dwTime2 + 500 < GetTickCount())
 		{
 		
@@ -220,6 +226,7 @@ void CPlayer::KeyCheck(void)
 		
 	if(m_dwKey & KEY_D)
 	{
+		CDevice::GetInstance()->SoundPlay(6, 0);
 		if(m_dwTime2 + 500 < GetTickCount())
 		{
 		int iCritical = rand() % 5000 + 1500;
@@ -240,7 +247,7 @@ void CPlayer::KeyCheck(void)
 	}
 
 	if(m_dwKey & KEY_F)
-	{
+	{CDevice::GetInstance()->SoundPlay(3, 0);
 		if(m_dwTime2 + 300 < GetTickCount())
 		{
 		int iCritical = rand() % 4000 + 1450;
@@ -560,3 +567,8 @@ bool CPlayer::GetRope(void)
 {
 	return m_bRope;
 }	
+
+DWORD	CPlayer::GetState(void)
+{
+	return m_dwState;
+}

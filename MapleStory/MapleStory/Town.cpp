@@ -96,7 +96,7 @@ void	CTown::Initialize(void)
 	
 	if(m_pPlayer == NULL)
 	{
-	m_pPlayer = CObjFactory<CPlayer>::CreateObj(WINCX/2.f, WINCY/2.f);
+	m_pPlayer = CObjFactory<CPlayer>::CreateObj(2000.f, WINCY/2.f);
 
 	}
 	
@@ -113,6 +113,10 @@ void	CTown::Initialize(void)
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(3000.f,WINCY-160));
 	
 
+	((CPlayer*)m_pPlayer)->SetScrollX2(-1650.f);
+	((CPlayer*)m_pPlayer)->SetScrollY2(0.f);
+	((CPlayer*)m_pPlayer)->SetOffsetX(2050.f);
+	((CPlayer*)m_pPlayer)->SetOffsetY(300.f);
 
 //	((CPlayer*)m_ObjList[OBJ_PLAYER].back())->SetSkill(&m_ObjList[OBJ_SKILL]);
 	((CPlayer*)m_pPlayer)->SetSkill(&m_ObjList[OBJ_SKILL]);
@@ -172,15 +176,17 @@ int CTown::Progress(void)
 		for(list<CObj*>::iterator	iter = m_ObjList[i].begin();
 			iter !=	m_ObjList[i].end(); ++iter)
 		{
-			(*iter)->Progress();
-
-		
+			(*iter)->Progress()	;
 			CRenderMgr::GetInst()->AddObject(*iter);
 			
 		}
 	}
+	if(m_ObjList[OBJ_MONSTER].empty())
+	{
+	
+	}
 
-	if(m_dwTime + 6000 < GetTickCount())
+	if(m_dwTime + 3000 < GetTickCount())
 	{
 		m_dwTime = GetTickCount();
 		
@@ -188,14 +194,14 @@ int CTown::Progress(void)
 		{
 		for (int i= 0; i<3; ++i)
 		{
-		CObj*	pMonster = CreateMonster(500.f+((i+1)*50),WINCY-150.f,100.f,100.f,1000.f,"SlimeL");
+		CObj*	pMonster = CreateMonster(2600.f+((i+1)*50),WINCY-150.f,100.f,100.f,10000.f,"SlimeL");
 		m_ObjList[OBJ_MONSTER].push_back(pMonster);
 		}
 		
 
 		for (int i= 0; i<3; ++i)
 		{
-		CObj*	pMonster = CreateMonster(1500.f+((i+1)*50),WINCY-150.f,70.f,70.f,800.f,"BlueL");
+		CObj*	pMonster = CreateMonster(2050.f+((i+1)*50),WINCY-150.f,70.f,70.f,8000.f,"BlueL");
 		m_ObjList[OBJ_MONSTER].push_back(pMonster);
 		}
 		}
@@ -228,7 +234,7 @@ int CTown::Progress(void)
 	
 	
 
-//	CCollisionMgr::MonsterCollision(m_pPlayer, &m_ObjList[OBJ_MONSTER]);
+	//CCollisionMgr::MonsterCollision(m_pPlayer, &m_ObjList[OBJ_MONSTER]);
 
 	return 0;
 
@@ -256,7 +262,7 @@ void CTown::Render(HDC hdc)
 
 	}
 	
-	
+	/*
 	TCHAR szBuf[128] = L"";
 	wsprintf(szBuf, L"x 좌표 : %d , y 좌표 : %d", m_iX, m_iY);
 				TextOut(m_BitMap["back"]->GetMemDC(), 
@@ -271,19 +277,19 @@ void CTown::Render(HDC hdc)
 	wsprintf(szBuf, L"x 오프셋 : %d , y 오프셋 : %d", m_iOffsetX, m_iOffsetY);
 				TextOut(m_BitMap["back"]->GetMemDC(), 
 					50, 200,
-					szBuf, lstrlen(szBuf));
+					szBuf, lstrlen(szBuf));*/
 
 			/*	wsprintf(szBuf, L"y 좌표 : %d", m_pPlayer->GetInfo().fY);
 				TextOut(m_BitMap["back"]->GetMemDC(), 
 					130,100,
 					szBuf, lstrlen(szBuf));*/
 	
-	TCHAR szBuf2[128] = L"";
-	wsprintf(szBuf, L" 마우스 x : %d , 마우스 y : %d",GetMouse().x - m_iScrollX, GetMouse().y - m_iScrollX);
-				TextOut(m_BitMap["back"]->GetMemDC(), 
-					50, 250,
-					szBuf, lstrlen(szBuf));
-	
+	//TCHAR szBuf2[128] = L"";
+	//wsprintf(szBuf, L" 마우스 x : %d , 마우스 y : %d",GetMouse().x - m_iScrollX, GetMouse().y - m_iScrollX);
+	//			TextOut(m_BitMap["back"]->GetMemDC(), 
+	//				50, 250,
+	//				szBuf, lstrlen(szBuf));
+	//
 	
 
 	for(size_t i = 0; i < OBJ_END; ++i)

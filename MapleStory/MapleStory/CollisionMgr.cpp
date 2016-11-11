@@ -180,7 +180,7 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 										
 							(*iter)->SetCount((*iter2)->GetCount());
 							(*iter2)->SetDamage((*iter)->GetInfo().iAttack);
-			
+							
 							((CMonster*)(*iter2))->MonsterHit();
 							
 							pSkill->push_back(CObjFactory<CMySkill>::CreateObj((*iter2)->GetInfo().fX,(*iter2)->GetInfo().fY,303.f,201.f,20,"Bolt_Hit"));
@@ -299,8 +299,10 @@ void CCollisionMgr::SkillCollision(list<CObj*>* pSkill, list<CObj*>* pMonster)
 							
 						if((*iter2)->GetInfo().fHP<=0)
 						{
+							
 							::Safe_Delete(*iter2);
 							iter2 = pMonster->erase(iter2);
+												
 						}
 						else
 						{
@@ -335,7 +337,7 @@ void CCollisionMgr::MonsterCollision(CObj* pPlayer, list<CObj*>* pMonster)
 		{
 				if(IntersectRect(&rcCol, &(pPlayer)->GetRect(), &(*iter)->GetRect()))
 				{
-					int iHundred = (*iter)->GetInfo().iAttack / 100;
+					int iHundred =(((*iter)->GetInfo().fHP)/10) / 100;
 					int	iTen =((*iter)->GetInfo().iAttack - (iHundred * 100) )/ 10;
 					int iOne = (*iter)->GetInfo().iAttack - ((iHundred*100) + (iTen*10));
 			
@@ -344,19 +346,30 @@ void CCollisionMgr::MonsterCollision(CObj* pPlayer, list<CObj*>* pMonster)
 
 					if(iWidth > iHeight) // 상하충돌
 					{
-										
+						if(!pPlayer->GetHit())				
 						pPlayer->SetDamage(100);
 									
 					}
 
 					else // 좌우
 					{
-						
+					if(!pPlayer->GetHit())	
+					{
 						pPlayer->SetDamage(100);
-						pPlayer->SetMinusX(iWidth);	
+					
 						pMonster->push_back(CObjFactory<CDamageSkin>::CreateObj(pPlayer->GetInfo().fX , pPlayer->GetInfo().fY,33.f,38.f, iHundred,"Damage"));
 					
-					
+						pPlayer->Sethit(true);
+						if(pPlayer->GetInfo().fX < (*iter)->GetInfo().fX)
+						{
+							pPlayer->SetMinusX(iWidth);	
+						}
+						if(pPlayer->GetInfo().fX > (*iter)->GetInfo().fX)
+						{
+							pPlayer->SetPlusY(iWidth);
+						}
+						
+					}
 					}
 					
 				
@@ -410,11 +423,19 @@ void CCollisionMgr::TileCollision(CObj* pPlayer, vector<TILE*>* pTile)
 
 					if(iWidth > iHeight) // 상하충돌
 					{
-				
+						
 							pPlayer->SetMinusY(iHeight);
 							((CPlayer*)(pPlayer))->SetJump(false);
 							((CPlayer*)(pPlayer))->SetGravity(true);
 							((CPlayer*)(pPlayer))->SetTime(0.f);
+
+						/*	if(pPlayer->GetInfo().fY < (*iter)->fY &&
+								((CPlayer*)pPlayer)->GetstrKey() == "Player_DOWN" &&
+								((CPlayer*)pPlayer)->GetJump() == true)
+							{
+								pPlayer->SetPlusY(10);
+								
+							}*/
 					/*
 							if(((CPlayer*)pPlayer)->GetstrKey() == "Player_DOWN")
 							{
@@ -478,6 +499,7 @@ void CCollisionMgr::TileCollision(CObj* pPlayer, vector<TILE*>* pTile)
 							((CPlayer*)(pPlayer))->SetGravity(false);
 							((CPlayer*)pPlayer)->SetState(ST_UP,2,2,80);
 							pPlayer->SetMinusY(5);
+		
 						
 						}
 						
@@ -493,6 +515,9 @@ void CCollisionMgr::TileCollision(CObj* pPlayer, vector<TILE*>* pTile)
 					}
 					
 				}
+
+			
+
 				else
 					++iter;
 			}

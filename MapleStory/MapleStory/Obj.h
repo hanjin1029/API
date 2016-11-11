@@ -18,6 +18,7 @@ protected:
 	string		m_strKey;
 	int			m_iDrawID;
 	bool		m_bHit;
+
 	int			m_iCount;
 
 	static	map<string, CBitBmp*>*		m_pBitMap;

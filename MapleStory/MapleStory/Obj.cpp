@@ -146,3 +146,4 @@ void CObj::SetCount(int iCount)
 	m_iCount += iCount;
 	
 }
+

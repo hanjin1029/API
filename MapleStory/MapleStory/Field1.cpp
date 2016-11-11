@@ -37,6 +37,8 @@ void CField1::Initialize(void)
 
 	
 	CDevice::GetInstance()->LoadWave(L"../Sound/Field1.wav");
+	
+
 	CDevice::GetInstance()->SoundStop(1);
 	CDevice::GetInstance()->SoundPlay(2, 1);
 	
@@ -76,7 +78,8 @@ void CField1::Initialize(void)
 	m_BitMap["SlimeR"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/SlimR.bmp");
 	m_BitMap["BlueL"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/BlueL.bmp");
 	m_BitMap["BlueR"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/BlueR.bmp");
-
+	m_BitMap["DeuL"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Deu_L.bmp");
+	m_BitMap["DeuR"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Deu_R.bmp");
 	m_BitMap["Arrow"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/ITEM_Weapon_ID1_0.bmp");
 	m_BitMap["Armor"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/ITEM_Wear_ID2_0.bmp");
 	
@@ -88,7 +91,7 @@ void CField1::Initialize(void)
 	m_ObjList[OBJ_UI].push_back(CObjFactory<CPlayerUI>::CreateObj());
 
 	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(40.f,m_fCY-300));
-	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(1313.f, 105.f));
+	m_ObjList[OBJ_PORTAL].push_back(CObjFactory<CPortal>::CreateObj(1313.f, 120.f));
 
 	((CPlayer*)m_pPlayer)->SetScrollX2(0.f);
 	((CPlayer*)m_pPlayer)->SetScrollY2(-760.f);
@@ -137,7 +140,7 @@ int CField1::Progress(void)
 	
 	
 	if(GetAsyncKeyState(VK_RETURN))
-		CDevice::GetInstance()->SoundStop(2);
+	CDevice::GetInstance()->SoundStop(2);
 
 	m_iX = (int)m_pPlayer->GetInfo().fX;
 	m_iY = (int)m_pPlayer->GetInfo().fY;
@@ -147,22 +150,29 @@ int CField1::Progress(void)
 	m_iOffsetY = (int)(((CPlayer*)m_pPlayer)->GetOffSetY());
 
 
-	if(m_dwTime + 10000 < GetTickCount())
+	if(m_dwTime + 3000 < GetTickCount())
 	{
 		m_dwTime = GetTickCount();
 		if(m_ObjList[OBJ_MONSTER].empty())
 		{
 		for (int i= 0; i<3; ++i)
 		{
-		CObj*	pMonster = CreateMonster(300.f+((i+1)*50),m_fCY-270,100.f,100.f,1000.f,"SlimeL");
+		CObj*	pMonster = CreateMonster(300.f+((i+1)*50),m_fCY-270,100.f,100.f,10000.f,"SlimeL");
 		m_ObjList[OBJ_MONSTER].push_back(pMonster);
 		}
 
 		for (int i= 0; i<3; ++i)
 		{
-		CObj*	pMonster = CreateMonster(700.f+((i+1)*30), m_fCY-270,70.f,70.f,800.f,"BlueL");
+		CObj*	pMonster = CreateMonster(900.f+((i+1)*30), 634.f,70.f,70.f,12000.f,"BlueL");
 		m_ObjList[OBJ_MONSTER].push_back(pMonster);
 		}
+
+		for (int i= 0; i<3; ++i)
+		{
+		CObj*	pMonster = CreateMonster(1320.f+((i+1)*30), 103.f ,158.f,148.f,14000.f,"DeuL");
+		m_ObjList[OBJ_MONSTER].push_back(pMonster);
+		}
+
 		}
 	}
 
@@ -190,12 +200,12 @@ int CField1::Progress(void)
 		}
 	}
 
-	if(m_pPlayer->GetInfo().fX >= 1313.f && m_pPlayer->GetInfo().fY <= 153.f)
+	if(m_pPlayer->GetInfo().fX >= 1313.f && m_pPlayer->GetInfo().fY <= 173.f)
 	{
 		if(((CPlayer*)m_pPlayer)->GetstrKey() == "Player_UP")
 		{	
 		CSceneMgr::GetInst()->SetScene(SC_FIELD2);
-			}
+		}
 
 	}
 

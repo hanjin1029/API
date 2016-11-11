@@ -23,7 +23,7 @@ public:
 	CObj* CreateMonster(float _fX, float _fY, float _fCX, float _fCY, string _strMonster);
 	void	MonsterHit(void);
 	void	SetState(DWORD	ST);
-
+	void	MonsterAttack();
 	
 
 public:
